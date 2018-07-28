@@ -2,7 +2,7 @@
 biac2bids
 =========
 This repo serves as a pipeline for converting raw data from Duke Brain Imaging & 
-Analysis Center `(biac) <https://www.biac.duke.edu>` to the standard BIDS format.
+Analysis Center `(biac) <https://www.biac.duke.edu>`_ to the standard BIDS format.
 
 ------------
 Installation
