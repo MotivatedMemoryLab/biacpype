@@ -1,0 +1,9 @@
+language: python
+python:
+  - "3.6"
+
+script: pytest
+notifications:
+  email:
+    on_success: never
+    on_failure: always
