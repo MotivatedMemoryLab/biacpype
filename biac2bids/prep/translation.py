@@ -24,10 +24,27 @@ def trans_dict(filepath, delimiter="\t", header=0):
     return d
 
 
-def trans_dict_by_folders():
-    """Given a folder of 
+def parse_task_and_run(filename, trans_dict, delimiter="_"):
+    """Parse a bxh filename to get task name and run (if any)
+
+    Expect the filename to be in format:
+        bia5_<subject-id>_<task-code>_<run-number>.bxh
+    for instance: bia5_19338_4_01.bxh
+    
+    params:
+        - filename: filename of bxh 
+        - trans_dict: dictionary to translate task code to task name
+        - delimiter: delimiter of the filename (default to be "_")
+    returns: task name and run number (if any)
     """
-     
+    assert "/" not in filename, "Please use file name alone (not relative/full path)"
+    filename = filename.rstrip(".bxh")
+    info = filename.split(delimiter)
+    if info[2] not in trans_dict:
+        raise ValueError("Parsed task code cannot be found in translation dictionary!")     
+    run = None if len(info) == 3 else info[3]
+    return trans_dict[info[2]], run, info[2] + "_" + info[3]
+
 
 if __name__ == "__main__":
     d = trans_dict("/Users/lpjiang/Research/CBT/Data/func/19492/series_order_note.txt")
