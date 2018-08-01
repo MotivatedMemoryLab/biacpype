@@ -27,8 +27,10 @@ def _build_anat(dict_to_write):
     dict_to_write["anats"] = {"005": {"acq": "anat"}}
 
 
-def _write_to_json(dict_to_write, output_path):
-    with open(output_path, "w") as f:
+def _write_to_json(dict_to_write, output_path, subject):
+    if not os.path.exists(output_path):
+        os.mkdir(output_path)
+    with open(output_path + subject + ".json", "w") as f:
         json.dump(dict_to_write, f)
 
 
@@ -37,4 +39,4 @@ def generate_json(subject, session, data_path, trans_dict, output_path):
     _build_subj(d, subject, session)
     _build_funcs(d, subject, data_path, trans_dict)
     _build_anat(d)
-    _write_to_json(d, output_path)
+    _write_to_json(d, output_path, subject)
