@@ -45,7 +45,6 @@ def parse_task_and_run(filename, trans_dict, delimiter="_"):
     """
     assert "/" not in filename, "Please use file name alone (not relative/full path)"
     filename = filename.rstrip(".bxh")
-    print(filename)
     info = filename.split(delimiter)
     if info[2] not in trans_dict:
         raise ValueError("Parsed task code cannot be found in translation dictionary!")     
