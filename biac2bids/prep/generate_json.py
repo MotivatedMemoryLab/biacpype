@@ -28,8 +28,6 @@ def _build_anat(dict_to_write):
 
 
 def _write_to_json(dict_to_write, output_path, subject):
-    if not os.path.exists(output_path):
-        os.mkdir(output_path)
     with open(output_path + subject + ".json", "w") as f:
         json.dump(dict_to_write, f)
 

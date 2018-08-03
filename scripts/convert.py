@@ -9,6 +9,9 @@ STUDY_PATH = "/Users/lpjiang/Research/CBT/"
 JSON_OUTPUT_PATH = "/Users/lpjiang/Research/CBT/JSONS/" 
 TRANSLATION_FILE_NAME = "series_order_note.txt" 
 SESSION = ""
+BIDS_PATH = "/Users/lpjiang/Research/CBT/bids-try/"
+LOG_PATH = "/Users/lpjiang/Research/CBT/bids-try/logs/"
 
-run_all(SUBJECTS, SESSION, STUDY_PATH, TRANSLATION_FILE_NAME, JSON_OUTPUT_PATH)
+
+run_all(SUBJECTS, SESSION, STUDY_PATH, TRANSLATION_FILE_NAME, JSON_OUTPUT_PATH, BIDS_PATH, LOG_PATH)
 print("Done")
