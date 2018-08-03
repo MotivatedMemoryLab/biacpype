@@ -1,6 +1,6 @@
 import json
 import os 
-from translation import trans_dict, parse_task_and_run
+from .translation import trans_dict, parse_task_and_run
 
 
 def _build_subj(dict_to_write, subject, session):

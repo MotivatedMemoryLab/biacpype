@@ -20,7 +20,6 @@ def verify_data_dir(dirpath):
     
 
 def choose_json_dir(dirpath):
-
     if os.path.exists(dirpath):
         print("This path already exists: do you want to overwrite it? [yes/no]")
         choice = input("Enter your decision: ") 
