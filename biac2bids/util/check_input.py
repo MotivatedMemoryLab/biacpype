@@ -21,12 +21,11 @@ def verify_data_dir(dirpath):
 
 def choose_json_dir(dirpath):
     if os.path.exists(dirpath):
-        print("This path already exists: do you want to overwrite it? [yes/no]")
+        print("The output path already exists: do you want to overwrite it? [yes/no]")
         choice = input("Enter your decision: ") 
         if choice == "yes":
             shutil.rmtree(dirpath)
         else: 
             return False
-
     os.makedirs(dirpath)
     return True
