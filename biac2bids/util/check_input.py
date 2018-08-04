@@ -11,8 +11,8 @@ def verify_data_dir(dirpath):
     # check anat and func in Data
     dirpath = os.path.join(dirpath, "Data")
     sub_contents = os.listdir(dirpath)
-    if "anat" not in sub_contents or "func" not in sub_contents:
-        return "anat or func are not the subfolders of Data"
+    if "anat" not in sub_contents or "func" not in sub_contents or "behavioral" not in sub_contents:
+        return "anat or func or behavioral are not the subfolders of Data"
     # verify anat and func has the same folders
     anat_folders = os.listdir(os.path.join(dirpath, "anat")) 
     func_folders = os.listdir(os.path.join(dirpath, "func"))  
