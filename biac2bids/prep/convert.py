@@ -31,7 +31,7 @@ def run_all(subjects, session, study_path, trans_file, json_path, bids_path, log
         return
         
     for subject in subjects:
-        generate_json(subject, session, study_path + "Data/", trans_dict(trans_file, subject, study_path + "Data/"), json_path)
+        generate_json(subject, session, study_path + "data/", trans_dict(trans_file, subject, study_path + "Data/"), json_path)
 
     run_dream(study_path, bids_path, log_path, json_path, subjects)
     
