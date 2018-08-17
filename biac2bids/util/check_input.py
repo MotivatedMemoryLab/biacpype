@@ -6,10 +6,10 @@ def verify_data_dir(dirpath):
     if not os.path.exists(dirpath):
         return "This path does not exist!"
     contents = os.listdir(dirpath)
-    if "Data" not in contents:
-        return "Data is not a folder in this path!"
+    if "data" not in contents:
+        return "data is not a folder in this path!"
     # check anat and func in Data
-    dirpath = os.path.join(dirpath, "Data")
+    dirpath = os.path.join(dirpath, "data")
     sub_contents = os.listdir(dirpath)
     if "anat" not in sub_contents or "func" not in sub_contents or "behavioral" not in sub_contents:
         return "anat or func or behavioral are not the subfolders of Data"
