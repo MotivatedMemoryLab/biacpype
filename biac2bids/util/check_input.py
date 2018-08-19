@@ -2,21 +2,21 @@ import os
 import shutil
 
 
-def verify_data_dir(dirpath):
+def verify_biac_path(dirpath):
     if not os.path.exists(dirpath):
         return "This path does not exist!"
     contents = os.listdir(dirpath)
-    if "data" not in contents:
-        return "data is not a folder in this path!"
+    if "Data" not in contents:
+        return "Folder \"Data\" is not in this biac directory!"
     # check anat and func in Data
-    dirpath = os.path.join(dirpath, "data")
+    dirpath = os.path.join(dirpath, "Data")
     sub_contents = os.listdir(dirpath)
-    if "anat" not in sub_contents or "func" not in sub_contents or "behavioral" not in sub_contents:
-        return "anat or func or behavioral are not the subfolders of Data"
+    if "Anat" not in sub_contents or "Func" not in sub_contents or "Behavioral" not in sub_contents:
+        return "\"Anat\" or \"Func\" or \"Behavioral\" are not the subfolders of Data"
     # verify anat and func has the same folders
-    anat_folders = os.listdir(os.path.join(dirpath, "anat")) 
-    func_folders = os.listdir(os.path.join(dirpath, "func"))  
-    return None if anat_folders == func_folders else "anat and func contains different folders!"
+    anat_folders = os.listdir(os.path.join(dirpath, "Anat")) 
+    func_folders = os.listdir(os.path.join(dirpath, "Func"))  
+    return None if anat_folders == func_folders else "\"Anat\" and \"Func\" contains different folders!"
     
 
 def choose_json_dir(dirpath):
