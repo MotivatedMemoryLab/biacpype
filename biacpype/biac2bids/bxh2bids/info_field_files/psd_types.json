@@ -1,0 +1,92 @@
+{
+    "sensespiral": {
+                    "type": "func",
+                    "label": "bold"
+                    },
+                    
+	"sensespiral in": {
+                    "type": "func",
+                    "label": "bold"
+                    },
+
+    "sensespiral fMRI": {
+                    "type": "func",
+                    "label": "bold"
+                    },
+					
+    "3Plane Loc SSFSE": {
+                    "type": "notsupported",
+                    "label": "LOC"
+                    },
+                    
+    "3 plane loc ssfse": {
+                    "type": "notsupported",
+                    "label": "LOC"
+                    },
+
+    "ASSET calibration": {
+                    "type": "notsupported",
+                    "label": "LOC"
+                    },
+
+    "Ax FSPGR 3D BRAVO": {
+                    "type": "anat",
+                    "label": "T1w"
+                    },
+    "SSFSE": {
+                    "type": "anat",
+                    "label": "T2w"
+                    },
+    "Ax FSPGR BRAVO": {
+                    "type": "anat",
+                    "label": "T1w"
+                    },
+    "Ax DTI": {
+                    "type": "dwi",
+                    "label": "dwi"
+              },
+
+    "Average DC": {
+                    "type": "notsupported",
+                    "label": "dwi"
+              },
+
+    "Isotropic image": {
+                    "type": "notsupported",
+                    "label": "dwi"
+              },
+
+    "Fractional Aniso.": {
+                    "type": "notsupported",
+                    "label": "dwi"
+              },
+
+    "GE EPI RT choice": {
+                    "type": "func",
+                    "label": "bold"
+                        },
+    "ncanda-grefieldmap-v1": {
+                    "type": "fmap",
+                    "label": "b0"
+                        },
+    "SC:Ax FSPGR BRAVO": {
+                    "type": "anat",
+                    "label": "T1w"
+                    },
+    "SPGR_GRAPPA Iron": {
+                    "type": "anat",
+                    "label": "T1w"
+    			},
+    "fMRI 481x5": {
+	    	    "type": "func",
+	    	    "label": "bold"
+    },
+    "fMRI 408": {
+	    	    "type": "func",
+	    	    "label": "bold"
+    },
+    "fMRI 308 resting": {
+	    	    "type": "func",
+	    	    "label": "bold"
+    }
+}
