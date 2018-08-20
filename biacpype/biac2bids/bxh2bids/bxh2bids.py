@@ -28,12 +28,8 @@ Inputs:
 Outputs:
           A log file will be written to the passed log directory
 
-Returns:
-          NA
-
-
-
- Created 09/2017 by John Graner; Center for Cognitive Neuroscience, LaBar Lab, Duke University
+Created 09/2017 by John Graner; Center for Cognitive Neuroscience, LaBar Lab, Duke University
+Minor changes made by Preston Jiang; Center for Cognitive Neuroscience, Adcock Lab, Duke University 
 """
 import json
 import xmltodict
@@ -968,6 +964,3 @@ def multi_bxhtobids(dataid, ses_dict, source_study_dir, target_study_dir, log_di
     create_dataset_description(target_study_dir)
 
     logging.info('-----FINISH: multi_bxhtobids-----')
-        
-
-    

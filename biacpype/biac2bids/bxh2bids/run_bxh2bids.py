@@ -1,4 +1,4 @@
-import bxh2bids
+from .bxh2bids import multi_bxhtobids
 import os
 import json
 
@@ -27,7 +27,7 @@ for unique_id in to_run:
         ses_dict = json.loads(fd.read())
 
     try:
-        bxh2bids.multi_bxhtobids(dataid, ses_dict, source_study_dir, target_study_dir, log_dir)
+        multi_bxhtobids(dataid, ses_dict, source_study_dir, target_study_dir, log_dir)
         good_data.append(dataid)
     except Exception as ex:
         print('Data set failed to run: '+str(dataid))
