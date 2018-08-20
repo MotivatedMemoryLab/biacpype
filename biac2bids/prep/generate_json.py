@@ -4,18 +4,38 @@ from .translation import trans_dict, parse_task_and_run
 import re
 
 
-def _walk_study_path(dict_to_write, study_path, trans_dict):
+__all__ = ['generate_all_jsons']
+
+### call this ###
+def generate_all_jsons(study_path, trans_file_name, session, output_path):
+    return _walk_study_path(study_path, trans_file_name, session, output_path)
+    
+
+
+def _walk_study_path(study_path, trans_file_name, session, output_path):
     func_path = os.path.join(study_path, "Data", "Func") 
     func_folders = os.listdir(func_path)
     regex = re.compile('\d+_\d+')
     func_folders = filter(regex.search, func_folders)
+    # dict to write to json
+    dict_to_write = dict()
+    # go through all subjects
+    all_subjects_id = []
     for func in func_folders:
-        date, subj = func.split("_")
+        _, subject = func.split("_")
+        all_subjects_id.append(subject)
+        # build trans_dict
+        trans_d = trans_dict(os.path.join(func_path, func), trans_file_name)
+        # build header
+        _build_subj(dict_to_write, subject, session)
         # build for func
-        _build_contents(dict_to_write, study_path, func, trans_dict=trans_dict)
+        _build_contents(dict_to_write, study_path, func, trans_dict=trans_d)
         # build for anat
         _build_contents(dict_to_write, study_path, func, trans_dict=None)
-
+        # output
+        _write_to_json(dict_to_write, output_path, subject)  
+    return all_subjects_id
+        
 
 def _build_subj(dict_to_write, subject, session):
     dict_to_write["sub"] = subject
@@ -49,11 +69,4 @@ def _build_contents(dict_to_write, study_path, subject, trans_dict=None):
 def _write_to_json(dict_to_write, output_path, subject):
     with open(output_path + subject + ".json", "w") as f:
         json.dump(dict_to_write, f)
-
-
-def generate_json(subject, session, study_path, trans_dict, output_path):
-    d = dict()
-    _build_subj(d, subject, session)
-    _walk_study_path(d, study_path, trans_dict)    
-    _write_to_json(d, output_path, subject)
 

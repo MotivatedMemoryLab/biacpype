@@ -1,14 +1,15 @@
-def trans_dict(filename, subject, data_path, delimiter="\t", header=0):
+import os
+
+
+def trans_dict(filename, filepath, delimiter="\t", header=0):
     """Given filename, translate code to task name.
 
     Expect the file to be in format (| is the delimiter)
     Code | Task
-    -----------
-      4  |  train
+    ------------
+      4  | train
       ........
 
-    Note: we expect the file to be in folder ....../Data/func/<subject>/<filename>
-    
     params:
         - filename: file name
         - subject: subject number
@@ -17,7 +18,7 @@ def trans_dict(filename, subject, data_path, delimiter="\t", header=0):
         - header: the number of lines to skip for header
     returns: a translation dict
     """
-    with open(data_path + "func/" + subject + "/" + filename, "r") as f:
+    with open(os.path.join(filepath, filename), "r") as f:
         for _ in range(header):
             f.readline()
         d = dict()
@@ -28,7 +29,6 @@ def trans_dict(filename, subject, data_path, delimiter="\t", header=0):
                 info = line.split(delimiter)
                 d[info[0]] = info[1]
     return d
-
 
 
 def parse_task_and_run(filename, trans_dict=None, delimiter="_"):

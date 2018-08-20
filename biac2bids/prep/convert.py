@@ -1,7 +1,7 @@
 import os
 import json
 from .translation import trans_dict
-from .generate_json import generate_json
+from .generate_json import generate_all_jsons
 from ..util.check_input import verify_biac_path,  choose_json_dir
 
 
@@ -19,7 +19,7 @@ def run_dream(study_path, bids_path, log_path, json_path, subjects):
         json.dump(d, f)
 
 
-def run_all(subjects, session, study_path, trans_file, json_path, bids_path, log_path):
+def run_all(session, study_path, trans_file, json_path, bids_path, log_path):
 
     msg = verify_biac_path(study_path) 
     if msg:
@@ -30,8 +30,8 @@ def run_all(subjects, session, study_path, trans_file, json_path, bids_path, log
         print("Please rerun the script with a different json output path!")
         return
         
-    for subject in subjects:
-        generate_json(subject, session, study_path + "data/", trans_dict(trans_file, subject, study_path + "Data/"), json_path)
-
+    # individual
+    subjects = generate_all_jsons(study_path, trans_file, session, json_path)
+    # group
     run_dream(study_path, bids_path, log_path, json_path, subjects)
     
