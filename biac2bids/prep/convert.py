@@ -2,7 +2,7 @@ import os
 import json
 from .translation import trans_dict
 from .generate_json import generate_json
-from ..util.check_input import verify_data_dir,  choose_json_dir
+from ..util.check_input import verify_biac_path,  choose_json_dir
 
 
 def run_dream(study_path, bids_path, log_path, json_path, subjects):
@@ -21,7 +21,7 @@ def run_dream(study_path, bids_path, log_path, json_path, subjects):
 
 def run_all(subjects, session, study_path, trans_file, json_path, bids_path, log_path):
 
-    msg = verify_data_dir(study_path) 
+    msg = verify_biac_path(study_path) 
     if msg:
         print("Error in folder check: " + msg) 
         return
