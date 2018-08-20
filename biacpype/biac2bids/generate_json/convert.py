@@ -2,7 +2,7 @@ import os
 import json
 from .translation import trans_dict
 from .generate_json import generate_all_jsons
-from ..util.check_input import verify_biac_path,  choose_json_dir
+from biacpype.util.check_input import verify_biac_path,  choose_json_dir
 
 
 def run_dream(study_path, bids_path, log_path, json_path, subjects):

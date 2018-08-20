@@ -23,7 +23,6 @@ def _walk_study_path(study_path, trans_file_name, session, output_path):
     all_subjects_id = []
     for func in func_folders:
         _, subject = func.split("_")
-        print(subject)
         if subject == "19239":
             continue
         all_subjects_id.append(func)
