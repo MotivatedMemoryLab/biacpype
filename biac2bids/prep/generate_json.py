@@ -6,6 +6,7 @@ from .translation import trans_dict, parse_task_and_run
 
 __all__ = ['generate_all_jsons']
 
+
 ### call this ###
 def generate_all_jsons(study_path, trans_file_name, session, output_path):
     return _walk_study_path(study_path, trans_file_name, session, output_path)
@@ -33,7 +34,7 @@ def _walk_study_path(study_path, trans_file_name, session, output_path):
         # build for func
         _build_contents(dict_to_write, study_path, func, trans_dict=trans_d)
         # build for anat
-        # _build_contents(dict_to_write, study_path, func, trans_dict=None)
+        _build_contents(dict_to_write, study_path, func, trans_dict=None)
         # output
         _write_to_json(dict_to_write, output_path, func)  
     return all_subjects_id
@@ -58,12 +59,10 @@ def _build_contents(dict_to_write, study_path, subject, trans_dict=None):
             # do a check and raise error here
             if trans_dict:
                 content["task"] = task_name
-                content["run"]  = run
-                contents[json_field] = content
             else:
                 content["acq"] = "anat"
-                content["run"]  = run
-                contents[json_field.split("_")[0]] = content
+            content["run"]  = run
+            contents[json_field] = content
     key = "funcs" if trans_dict else "anats"
     dict_to_write[key] = contents
 
