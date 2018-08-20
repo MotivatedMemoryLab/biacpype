@@ -1,7 +1,7 @@
 import json
 import os 
-from .translation import trans_dict, parse_task_and_run
 import re
+from .translation import trans_dict, parse_task_and_run
 
 
 __all__ = ['generate_all_jsons']
@@ -10,7 +10,6 @@ __all__ = ['generate_all_jsons']
 def generate_all_jsons(study_path, trans_file_name, session, output_path):
     return _walk_study_path(study_path, trans_file_name, session, output_path)
     
-
 
 def _walk_study_path(study_path, trans_file_name, session, output_path):
     func_path = os.path.join(study_path, "Data", "Func") 
@@ -23,17 +22,20 @@ def _walk_study_path(study_path, trans_file_name, session, output_path):
     all_subjects_id = []
     for func in func_folders:
         _, subject = func.split("_")
-        all_subjects_id.append(subject)
+        print(subject)
+        if subject == "19239":
+            continue
+        all_subjects_id.append(func)
         # build trans_dict
-        trans_d = trans_dict(os.path.join(func_path, func), trans_file_name)
+        trans_d = trans_dict(trans_file_name, os.path.join(func_path, func))
         # build header
-        _build_subj(dict_to_write, subject, session)
+        _build_subj(dict_to_write, func, session)
         # build for func
         _build_contents(dict_to_write, study_path, func, trans_dict=trans_d)
         # build for anat
-        _build_contents(dict_to_write, study_path, func, trans_dict=None)
+        # _build_contents(dict_to_write, study_path, func, trans_dict=None)
         # output
-        _write_to_json(dict_to_write, output_path, subject)  
+        _write_to_json(dict_to_write, output_path, func)  
     return all_subjects_id
         
 
