@@ -8,8 +8,8 @@ JSON_OUTPUT_PATH = "/Volumes/lj146/Documents/CBT.01/JSONS-new/"
 
 TRANSLATION_FILE_NAME = "series_order_note.txt" 
 SESSION = ""
-BIDS_PATH = "/Volumes/lj146/Documents/CBT.01/bids-try-try/"
-LOG_PATH = "/Volumes/lj146/Documents/CBT.01/bids-try-try/logs/"
+BIDS_PATH = "/Volumes/lj146/Documents/CBT.01/bids-try/"
+LOG_PATH = "/Volumes/lj146/Documents/CBT.01/bids-try/logs/"
 
 run_all(SESSION, STUDY_PATH, TRANSLATION_FILE_NAME, JSON_OUTPUT_PATH, BIDS_PATH, LOG_PATH)
 print("Done")
