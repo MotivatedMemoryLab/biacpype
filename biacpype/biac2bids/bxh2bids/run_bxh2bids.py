@@ -3,7 +3,7 @@ import os
 import json
 
 
-def run(hopes_dreams_file):
+def bxh_to_bids(hopes_dreams_file):
     """Convert data to BIDS format.
 
     params:

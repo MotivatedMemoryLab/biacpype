@@ -1,10 +1,9 @@
 import os
 from shutil import move, rmtree
-import pandas as pd
 from ..generate_json.translation import subject_mapping
 
 
-def walk_bids_folder(bids_path, study_path):
+def group_sessions(bids_path, study_path):
     """Rename all bids file with our subject id number mapping
 
     Expecting the same "biac_id_mapping.csv".

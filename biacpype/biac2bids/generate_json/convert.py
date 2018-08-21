@@ -1,13 +1,12 @@
 import os
 import json
-from .translation import trans_dict
 from .generate_json import generate_all_jsons
 from biacpype.util.check_input import verify_biac_path,  choose_json_dir
 
 
-def run_all(study_path, trans_file, json_path, bids_path, log_path):
+def generate_all_json_files(study_path, trans_file, json_path, bids_path, log_path):
     """Generate all json files needed by bxh2bids
-    
+
     params:
         - study_path: path to the study folder
         - trans_file: the file name for translation (not the path)

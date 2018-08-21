@@ -1,8 +1,8 @@
 import sys, os
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), "../"))
-from biacpype.biac2bids.generate_json.convert import run_all
-from biacpype.biac2bids.bxh2bids.run_bxh2bids import run
-from biacpype.biac2bids.clean_names.clean_name import walk_bids_folder
+from biacpype.biac2bids.generate_json.convert import generate_all_json_files
+from biacpype.biac2bids.bxh2bids.run_bxh2bids import bxh_to_bids
+from biacpype.biac2bids.clean_names.clean_name import group_sessions
 
 ### CHANGE HERE ###
 STUDY_PATH = "/Volumes/lj146/Documents/CBT.01/"
@@ -14,12 +14,12 @@ LOG_PATH = "/Volumes/lj146/Documents/CBT.01/logs/"
 # ---------pipe begins---------  # 
 
 # generate jsons
-run_all(STUDY_PATH, TRANSLATION_FILE_NAME, JSON_OUTPUT_PATH, BIDS_PATH, LOG_PATH)
+generate_all_json_files(STUDY_PATH, TRANSLATION_FILE_NAME, JSON_OUTPUT_PATH, BIDS_PATH, LOG_PATH)
 
 # convert to bids
-run(os.path.join(JSON_OUTPUT_PATH, "bxh2bids_hopes_dreams.json"))
+bxh_to_bids(os.path.join(JSON_OUTPUT_PATH, "bxh2bids_hopes_dreams.json"))
 
 # clean up
-walk_bids_folder(BIDS_PATH, "/Volumes/lj146/Documents/CBT.01")
+group_sessions(BIDS_PATH, "/Volumes/lj146/Documents/CBT.01")
 
 
