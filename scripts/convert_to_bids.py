@@ -21,6 +21,6 @@ run_all(SESSION, STUDY_PATH, TRANSLATION_FILE_NAME, JSON_OUTPUT_PATH, BIDS_PATH,
 run(os.path.join(JSON_OUTPUT_PATH, "bxh2bids_hopes_dreams.json"))
 
 # clean up
-walk_bids_folder(BIDS_PATH, "/Volumes/lj146/Documents/CBT.01/")
+walk_bids_folder(BIDS_PATH, "/Volumes/lj146/Documents/CBT.01/biac_id_to_subject.csv")
 
 
