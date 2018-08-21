@@ -1,0 +1,150 @@
+\documentclass[12pt]{myland}
+\usepackage{pgfplots}
+
+%%% Formatting
+\def\<#1>{\texttt{#1}}
+\setlength{\parskip}{1em}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%FILE TITLE%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\title{\texttt{biacpype} User Manual}
+\author{\small{Adcock Lab} \\ \small{Center for Cognitive Neuroscience, Duke University}}
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Overview}
+
+    \texttt{biacpype} serves as a pipeline for converting raw fMRI data from Brain Imaging \& Analysis Center
+    \href{https://www.biac.duke.edu/}{(BIAC)} at Duke University to the new standard Brain Imaging Data Structure
+    \href{http://bids.neuroimaging.io/}{(BIDS)} format, and supporting furthur analysis. The main parts of
+    \texttt{biacpype} contains:
+
+    \begin{itemize}
+        \item \texttt{biac2bids}: conversion from BIAC to BIDS
+        \item ...
+    \end{itemize}
+
+    The structure of \texttt{biacpype} is: \par \vspace{.2in}
+
+    \begin{lstlisting}
+|-biacpype // serves as the library
+|    |
+|    |_biac2bids
+|    |_ ...
+|
+|-scripts  // scripts for running a variety of pipelines
+|    |
+|    |_convert_to_bids.py
+|    |_ ...
+|
+|-docs     // documentation (under construction)
+    |
+    |_ ...
+    \end{lstlisting}
+
+    The following section will introduce main modules of \texttt{biacpype}, and the corresponding scripts for using
+    the pipelines. \par
+
+    If you have any questions, please email Preston Jiang at \href{mailto:linxing.jiang@duke.edu}{linxing.jiang@duke.edu}
+    or \href{mailto:prestonj@cs.washington.edu}{prestonj@cs.washington.edu}  \par
+
+
+\section{\texttt{biac2bids}}
+
+   \texttt{biac2bids} module is the pipeline for converting raw data from BIAC in forms of \texttt{bxh} and
+   \texttt{nifti} to BIDS format. The workflow is as follows:
+
+    \begin{figure}[h]
+        \begin{mybox}
+        \begin{tikzpicture}[>=latex,shape aspect=1,scale=0.7]
+        \tikzstyle{box} = [rectangle, draw, minimum height=1cm, minimum width=2cm]
+        % Disk Interface %
+        \node[box, dashed] (biac) at (-6, 0) {Data from biac};
+        \node[box, dashed] (json) at (0, 0) {\texttt{json} files};
+        \path[->] (biac) edge node[midway, above] {\tiny{\texttt{generate\_json}}} (json);
+        \node[box, dashed] (bxh) at (6, 0) {raw BIDS files};
+        \path[->] (json) edge node[midway, above] {\tiny{\texttt{bxh2bids}}} (bxh);
+        \node[box, dashed] (done) at (12, 0) {valid BIDS files};
+        \path[->] (bxh) edge node[midway, above] {\tiny{\texttt{clean\_names}}} (done);
+        \end{tikzpicture}
+        \end{mybox}
+    \end{figure}
+
+    \subsection{Prerequisites}
+    \<biac2bids> makes the following assumptions on the format of your raw data from BIAC:
+   \begin{lstlisting}[escapeinside={(*@}{@*)}]
+|-Data
+|    |
+|    |-Func
+|    |  |
+|    |  |-<[date_]subject>
+|    |  |       |
+|    |  |       |-<biac5_subject_task_run>.bxh
+|    |  |       |-<biac5_subject_task_run>.nii.gz
+|    |  |       |-...
+|    |  |       |-(*@\color{red}{translation\_file}@*)
+|    |  |-...
+|    |
+|    |-Anat
+|       |-<[date_]subject>
+|       |       |
+|       |       |-<biac5_subject_task_run>.bxh
+|       |       |-<biac5_subject_task_run>.nii.gz
+|       |-...
+|
+|-(*@\color{red}{biac\_id\_mapping.csv}@*)
+    \end{lstlisting}
+
+    Explanations:
+    \begin{itemize}
+        \item \<Data> folder has to contain \<Func> and \<Anat>, and they must have the exact same folders
+        \item Subfolders in \<Func> and \<Anat> are in format \<[date\_]subject> where \<[date\_]> is optional. E.g.
+            \<19354> and \<20140101\_19354> are both acceptable.
+        \item Each file in \<Func> and \<Anat> must in format \<biac5\_subject\_task\_run>. Usually, \<task> is a single
+        digit number, \<run> is two-digit. E.g. \<biac5\_19354\_4\_01.bxh>
+        \item Each subfolder in \<Func> \textbf{must contain} a \color{red}{\<translation\_file>} \color{black} to tell the pipeline
+        what each \<task> number stands for. E.g. 4 stands for ``TRAIN''. Requirements for this file are later
+        explained.
+        \item In the same folder containing \<Data>, there \textbf{must contain} a \color{red}{\<biac\_id\_mapping.csv>}
+        \color{black} which tells the pipeline the mapping from BIAC\_ID (e.g. 19354) to the session name (e.g. Session-1) and the
+        Real\_ID used by your lab (e.g. 101). Requirements for this file are later explained.
+    \end{itemize}
+
+    Requirements on \<translation\_file> are as follows:
+    \begin{table}[!htb]
+        \centering
+        \begin{tabularx}{.6\linewidth}{Y|Y}
+             4 & LOCALIZER \\
+             7 & TRAIN1 \\
+             ... & ... \\
+        \end{tabularx}
+    \end{table}
+    \par
+    Note:
+    \begin{itemize}
+        \item Task numbers in the first column \textbf{\em{must}} match that in the imaging files. For example, a ``4''
+            in \<translation\_file> and a ``004'' in the imaging file will result in an error.
+        \item The first column must be task code, and the second column must be the task name. There can only be two columns
+    \end{itemize}
+
+    Requirements on \<biac\_id\_mapping.csv> are as follows:
+    \begin{table}[!htb]
+        \centering
+        \begin{tabularx}{.6\linewidth}{Y|Y|Y}
+             BIAC\_ID & Session & Real\_ID \\ \hline
+             19354 & SRM & 101 \\
+             19338 & SPM & 102 \\
+             19368 & SPM & 101 \\
+             ... & ... & ... \\
+         \end{tabularx}
+    \end{table}
+    \par
+    Note:
+    \begin{itemize}
+        \item The headers must follow the rules (watch letter cases)!
+        \item If your experiment does not multiple sessions, use only the first and last column.
+    \end{itemize}
+
+\end{document}

@@ -14,3 +14,9 @@
 
 # pycharm
 *.idea/
+
+# latex 
+*.aux
+*.log
+*.out
+*.toc
