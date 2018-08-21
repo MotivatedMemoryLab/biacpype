@@ -1,9 +1,9 @@
 =========
 biacpype
 =========
-.. image:: https://travis-ci.org/MotivatedMemoryLab/biac2bids.svg?branch=master
-    :target: https://travis-ci.org/MotivatedMemoryLab/biac2bids
-    
+.. image:: https://travis-ci.org/MotivatedMemoryLab/biacpype.svg?branch=master
+    :target: https://travis-ci.org/MotivatedMemoryLab/biacpype    
+
 This repo serves as a pipeline for analyzing data from Duke Brain Imaging & 
 Analysis Center `(biac) <https://www.biac.duke.edu>`_ supporting data format conversion 
 (to `BIDS <http://bids.neuroimaging.io/>`_) and common data analysis with `FSL <https://fsl.fmrib.ox.ac.uk/fsl/fslwiki>`_
