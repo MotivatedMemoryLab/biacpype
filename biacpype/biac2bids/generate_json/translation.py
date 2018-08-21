@@ -1,10 +1,29 @@
 import os
+import pandas as pd
 
+
+def subject_mapping(study_path, delimiter=","):
+    """Create subject id, session, real id mapping.
+    
+    Read in the "biac_id_mapping.csv" file, expected in the study folder. The file is
+    expected to be in format ("|" is the delimiter, header has to be exact):
+    BIAC_ID (primary key) | Session | Real_ID
+    -----------------------------------------
+            18293         |   SRM   |   101
+            ...                 
+    If there are no multiple sessions, leave out the "Session" column
+
+    params:
+        - study_path: the path to the study folder 
+        - delimiter: the delimiter used in csv. default to be ","
+    """
+    return pd.read_csv(os.path.join(study_path, "biac_id_mapping.csv"), index_col="BIAC_ID", dtype={"Real_ID":str})
+    
 
 def trans_dict(filename, filepath, delimiter="\t", header=0):
     """Given filename, translate code to task name.
 
-    Expect the file to be in format (| is the delimiter)
+    Expect the file to be in format ("|" is the delimiter)
     Code | Task
     ------------
       4  | train

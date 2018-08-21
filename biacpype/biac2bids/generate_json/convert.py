@@ -5,11 +5,10 @@ from .generate_json import generate_all_jsons
 from biacpype.util.check_input import verify_biac_path,  choose_json_dir
 
 
-def run_all(session, study_path, trans_file, json_path, bids_path, log_path):
+def run_all(study_path, trans_file, json_path, bids_path, log_path):
     """Generate all json files needed by bxh2bids
     
     params:
-        - session: for now, will be replaced
         - study_path: path to the study folder
         - trans_file: the file name for translation (not the path)
         - json_path: path to save generated jsons
@@ -26,7 +25,7 @@ def run_all(session, study_path, trans_file, json_path, bids_path, log_path):
         return
         
     # individual
-    subjects = generate_all_jsons(study_path, trans_file, session, json_path)
+    subjects = generate_all_jsons(study_path, trans_file, json_path)
     # group
     _run_dream(study_path, bids_path, log_path, json_path, subjects)
 
@@ -43,6 +42,3 @@ def _run_dream(study_path, bids_path, log_path, json_path, subjects):
     d["ses_files"] = subj_dict
     with open(os.path.join(json_path, "bxh2bids_hopes_dreams.json"), "w") as f:
         json.dump(d, f)
-
-
-    

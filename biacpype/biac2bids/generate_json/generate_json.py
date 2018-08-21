@@ -1,22 +1,37 @@
 import json
 import os 
 import re
-from .translation import trans_dict, parse_task_and_run
+from .translation import trans_dict, parse_task_and_run, subject_mapping
 
 
 __all__ = ['generate_all_jsons']
 
 
 ### call this ###
-def generate_all_jsons(study_path, trans_file_name, session, output_path):
-    return _walk_study_path(study_path, trans_file_name, session, output_path)
+def generate_all_jsons(study_path, trans_file_name, output_path):
+    """Generate jsons for all subject and sessions
+
+    params:
+        - study_path: the path to the study folder
+        - trans_file_name: the name of the task name translation file (in each func folder)
+        - output_path: the path to output generated json files
+    
+    returns: 
+        - a list of subjects runned
+    """
+    return _walk_study_path(study_path, trans_file_name, output_path)
     
 
-def _walk_study_path(study_path, trans_file_name, session, output_path):
+def _walk_study_path(study_path, trans_file_name, output_path):
     func_path = os.path.join(study_path, "Data", "Func") 
     func_folders = os.listdir(func_path)
     regex = re.compile('\d+_\d+')
     func_folders = filter(regex.search, func_folders)
+    # subject mapping file
+    mapping = subject_mapping(study_path)
+    session = None
+    if "Session" not in mapping.columns:
+        session = ""
     # dict to write to json
     dict_to_write = dict()
     # go through all subjects
@@ -29,6 +44,8 @@ def _walk_study_path(study_path, trans_file_name, session, output_path):
         # build trans_dict
         trans_d = trans_dict(trans_file_name, os.path.join(func_path, func))
         # build header
+        if session != "":
+            session = mapping.loc[int(subject)].Session
         _build_subj(dict_to_write, func, session)
         # build for func
         _build_contents(dict_to_write, study_path, func, trans_dict=trans_d)

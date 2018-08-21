@@ -6,21 +6,20 @@ from biacpype.biac2bids.clean_names.clean_name import walk_bids_folder
 
 ### CHANGE HERE ###
 STUDY_PATH = "/Volumes/lj146/Documents/CBT.01/"
-JSON_OUTPUT_PATH = "/Volumes/lj146/Documents/CBT.01/JSONS-new/" 
+JSON_OUTPUT_PATH = "/Volumes/lj146/Documents/CBT.01/JSONS/" 
 TRANSLATION_FILE_NAME = "series_order_note.txt" 
-SESSION = ""
 BIDS_PATH = "/Volumes/lj146/Documents/CBT.01/bids-try/"
 LOG_PATH = "/Volumes/lj146/Documents/CBT.01/logs/"
 
 # ---------pipe begins---------  # 
 
 # generate jsons
-run_all(SESSION, STUDY_PATH, TRANSLATION_FILE_NAME, JSON_OUTPUT_PATH, BIDS_PATH, LOG_PATH)
+run_all(STUDY_PATH, TRANSLATION_FILE_NAME, JSON_OUTPUT_PATH, BIDS_PATH, LOG_PATH)
 
 # convert to bids
 run(os.path.join(JSON_OUTPUT_PATH, "bxh2bids_hopes_dreams.json"))
 
 # clean up
-walk_bids_folder(BIDS_PATH, "/Volumes/lj146/Documents/CBT.01/biac_id_to_subject.csv")
+walk_bids_folder(BIDS_PATH, "/Volumes/lj146/Documents/CBT.01")
 
 
