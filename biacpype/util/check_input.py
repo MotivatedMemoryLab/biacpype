@@ -6,6 +6,8 @@ def verify_biac_path(dirpath):
     if not os.path.exists(dirpath):
         return "This path does not exist!"
     contents = os.listdir(dirpath)
+    if "biac_id_mapping.csv" not in contents:
+        return "biac_id_mapping.csv is not in this biac directory!"
     if "Data" not in contents:
         return "Folder \"Data\" is not in this biac directory!"
     # check anat and func in Data
