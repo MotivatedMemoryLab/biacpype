@@ -5,7 +5,33 @@ from .generate_json import generate_all_jsons
 from biacpype.util.check_input import verify_biac_path,  choose_json_dir
 
 
-def run_dream(study_path, bids_path, log_path, json_path, subjects):
+def run_all(session, study_path, trans_file, json_path, bids_path, log_path):
+    """Generate all json files needed by bxh2bids
+    
+    params:
+        - session: for now, will be replaced
+        - study_path: path to the study folder
+        - trans_file: the file name for translation (not the path)
+        - json_path: path to save generated jsons
+        - bids_path: path the output bids format data
+        - log_path: path to save the logs
+    """
+    msg = verify_biac_path(study_path) 
+    if msg:
+        print("Error in folder check: " + msg) 
+        return
+
+    if not choose_json_dir(json_path):
+        print("Please rerun the script with a different json output path!")
+        return
+        
+    # individual
+    subjects = generate_all_jsons(study_path, trans_file, session, json_path)
+    # group
+    _run_dream(study_path, bids_path, log_path, json_path, subjects)
+
+
+def _run_dream(study_path, bids_path, log_path, json_path, subjects):
     d = dict()
     d["source_study_dir"] = study_path
     d["target_study_dir"] = bids_path
@@ -19,19 +45,4 @@ def run_dream(study_path, bids_path, log_path, json_path, subjects):
         json.dump(d, f)
 
 
-def run_all(session, study_path, trans_file, json_path, bids_path, log_path):
-
-    msg = verify_biac_path(study_path) 
-    if msg:
-        print("Error in folder check: " + msg) 
-        return
-
-    if not choose_json_dir(json_path):
-        print("Please rerun the script with a different json output path!")
-        return
-        
-    # individual
-    subjects = generate_all_jsons(study_path, trans_file, session, json_path)
-    # group
-    run_dream(study_path, bids_path, log_path, json_path, subjects)
     

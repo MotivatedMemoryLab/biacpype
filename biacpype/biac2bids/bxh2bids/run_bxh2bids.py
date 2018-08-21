@@ -2,8 +2,14 @@ from .bxh2bids import multi_bxhtobids
 import os
 import json
 
-#The json file containing information about your study sessions
+
 def run(hopes_dreams_file):
+    """Convert data to BIDS format.
+
+    params:
+        -hopes_dreams_file: the path to the hopes_dreams json file (if you used auto json generation, it 
+            would be in the your json output path)
+    """
     with open(hopes_dreams_file) as fd:
         hopes_dreams = json.loads(fd.read())
 

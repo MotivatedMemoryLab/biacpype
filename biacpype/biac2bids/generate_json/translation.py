@@ -10,6 +10,8 @@ def trans_dict(filename, filepath, delimiter="\t", header=0):
       4  | train
       ........
 
+    Note: this file is expected to be in the same folder for EVERY subject func folder
+
     params:
         - filename: file name
         - subject: subject number
