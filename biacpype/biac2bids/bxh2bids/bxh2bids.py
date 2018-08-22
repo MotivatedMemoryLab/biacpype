@@ -589,13 +589,19 @@ def convert_bxh(bxh_file, bxh_info_dict, target_study_dir=None):
                 raise RuntimeError('Output file already exists: '+str(full_output))
 
             #Copy the image data
+            image_to_copy = bxh_info_dict['orig_image']
             logging.info('Copying file: '+str(image_to_copy))
             logging.info('Target location: '+str(full_output))
             # shutil.copy2(image_to_copy, full_output)
             copy_image(image_to_copy, full_output)
 
             #Put together the sidecar .json file
-            output_name = bxh_info_dict['output_prefix']+'_'+bxh_info_dict['scan_label']+'.json'
+            #output_name = bxh_info_dict['output_prefix']+'_'+bxh_info_dict['scan_label']+'.json'
+            if b_label == 'magnitude': #CHANGE in naming 
+                output_name = bxh_info_dict['output_prefix']+'_'+b_label+'.json' #CHANGE, output_name was incorrectly assigned to full_output, added a '_'
+            else:
+                prefix = bxh_info_dict['output_prefix'].split('_')
+                output_name = prefix[0]+'_'+prefix[1]+'_'+'acq-'+b_label+'_'+ prefix[2]+'_'+'fieldmap'+'.json'
             full_output = os.path.join(output_dir, output_name)
             create_ncanda_json(bxh_file, full_output)
 
@@ -845,6 +851,7 @@ def compare_output_names(multi_bxh_info_dict):
             #Extract acquisition numbers from bxh file names
             logging.info('Extracting acquisition numbers from bxh file names...')
             num_list = []
+            # add a note to manual to make sure user follows the format
             for matching_bxh in matching_list:
                 bxh_number = os.path.splitext(bxh)[0][-3:]
                 num_list.append(int(bxh_number))
