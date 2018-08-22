@@ -1,5 +1,5 @@
 .. biacpype documentation master file, created by
-   sphinx-quickstart on Tue Aug 21 17:26:18 2018.
+   sphinx-quickstart on Tue Aug 21 20:40:44 2018.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
