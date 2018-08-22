@@ -387,10 +387,24 @@ def create_ncanda_json(bxh_file, full_output):
         et_two = et_two/1000
         out_dict['EchoTime2'] = et_two
 
+    #Look for the TR # CHANGE - add TR info
+    try:
+        tr = float(bxh_contents['bxh']['acquisitiondata']['tr'])
+    except:
+        logging.error('TR could not be found in passed .bxh!')
+        logging.error('bxh_file: '+str(bxh_file))
+    
+    #Make sure the tr is in seconds #CHANGE
+    tr = out_dict['RepetitionTime']
+    if tr > 50:
+        logging.info('TR in bxh file is greater than 50, assuming it is in ms.')
+        tr = tr/1000
+        out_dict['RepetitionTime'] = tr
+
     #Remove the old EchoTime dictionary entry, quietly
     out_dict['EchoTime'] = None
     out_dict.pop('EchoTime')
-
+    out_dict['Units'] = 'Hz' #CHANGE
     out_string = json.dumps(out_dict, indent=4)
 
     logging.info('Writing sidecar fmap file: '+str(full_output))
