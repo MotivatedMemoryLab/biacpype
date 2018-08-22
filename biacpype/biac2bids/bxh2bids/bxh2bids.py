@@ -578,7 +578,12 @@ def convert_bxh(bxh_file, bxh_info_dict, target_study_dir=None):
                 file_type = '.nii'
 
             #Copy the fmap file
-            full_output = bxh_info_dict['output_prefix']+b_label+file_type
+            if b_label == 'magnitude': #CHANGE in naming 
+                output_name = bxh_info_dict['output_prefix']+'_'+b_label+file_type #CHANGE, output_name was incorrectly assigned to full_output, added a '_'
+            else:
+                prefix = bxh_info_dict['output_prefix'].split('_')
+                output_name = prefix[0]+'_'+prefix[1]+'_'+'acq-'+b_label+'_'+ prefix[2]+'_'+'fieldmap'+file_type 
+            full_output = os.path.join(output_dir, output_name)
             #Check to see if the output file already exists
             if os.path.exists(full_output):
                 raise RuntimeError('Output file already exists: '+str(full_output))
