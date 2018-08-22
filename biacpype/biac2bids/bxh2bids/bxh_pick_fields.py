@@ -81,7 +81,10 @@ def bxh_pick(json_file, bxh_file=None, bxh_as_dict=None):
             if bids_style == 'string':
                 out_dict[key] = str(this_item)
             elif bids_style == 'float':
-                out_dict[key] = float(this_item)
+                try:
+                    out_dict[key] = float(this_item) #CHANGE
+                except:
+                    out_dict[key] = float(this_item.split(' ')[0]) # catching susceptibility scans echotime
             elif bids_style == 'int':
                 out_dict[key] = int(this_item)
             else:
