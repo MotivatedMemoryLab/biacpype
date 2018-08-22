@@ -10,6 +10,10 @@ Welcome to biacpype's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+Please checkout the user manual `here`_ for an overview of this pipeline!
+
+.. _here: ../../manual/manual.pdf
+
 
 
 Indices and tables
