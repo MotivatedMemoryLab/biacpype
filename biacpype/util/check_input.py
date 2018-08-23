@@ -4,6 +4,7 @@ import pandas as pd
 
 
 def verify_biac_path(dirpath):
+    # check study path contains Data/ and valid biac_id_mapping.csv
     if not os.path.exists(dirpath):
         return "This path does not exist!"
     contents = os.listdir(dirpath)
@@ -49,3 +50,7 @@ def valid_biac_id_mapping_file(filepath):
         else:
             valid = False
         return valid
+
+
+def valid_raw_file_names(filepath):
+    pass
