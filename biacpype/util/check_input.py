@@ -1,7 +1,7 @@
 import os
 import shutil
 import pandas as pd
-from .biac2bids.generate_json.translation import trans_dict
+from ..biac2bids.generate_json.translation import trans_dict
 
 
 def verify_biac_path(dirpath):
