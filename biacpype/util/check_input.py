@@ -1,6 +1,7 @@
 import os
 import shutil
 import pandas as pd
+from .biac2bids.generate_json.translation import trans_dict
 
 
 def verify_biac_path(dirpath):
@@ -24,6 +25,7 @@ def verify_biac_path(dirpath):
     func_folders = os.listdir(os.path.join(dirpath, "Func"))  
     if anat_folders != func_folders:
         return "\"Anat\" and \"Func\" contains different folders!" 
+
     return None
 
 
@@ -51,6 +53,10 @@ def valid_biac_id_mapping_file(filepath):
             valid = False
         return valid
 
+
+def verify_data_folder_and_trans_file(data_folder):
+    pass  
+    
 
 def valid_raw_file_names(filepath):
     pass
