@@ -31,23 +31,24 @@ def verify_biac_path(dirpath):
 
 def basic_structrue(study_path):
     # check study path contains Data/ and valid biac_id_mapping.csv
-    if not os.path.exists(dirpath):
+    if not os.path.exists(study_path):
         raise OSError("The study path not found!")
-    contents = os.listdir(dirpath)
+    contents = os.listdir(study_path)
     if "biac_id_mapping.csv" not in contents:
         raise ValueError("biac_id_mapping.csv is not in this biac directory!")
     if "Data" not in contents:
         raise ValueError("Folder \"Data\" is not in this biac directory!")
     # check anat and func in Data
-    dirpath = os.path.join(dirpath, "Data")
-    sub_contents = os.listdir(dirpath)
+    dirpath = os.path.join(study_path, "Data")
+    sub_contents = os.listdir(study_path)
     if "Anat" not in sub_contents or "Func" not in sub_contents:
         raise ValueError("\"Anat\" or \"Func\" or \"Behavioral\" are not the subfolders of Data")
     # verify anat and func has the same folders
-    anat_folders = os.listdir(os.path.join(dirpath, "Anat")) 
+    anat_folders = os.listdir(os.path.join(study_path, "Anat")) 
     func_folders = os.listdir(os.path.join(dirpath, "Func"))  
     if anat_folders != func_folders:
         raise ValueError("\"Anat\" and \"Func\" contains different folders!")
+    
 
     
 def choose_json_dir(dirpath):
