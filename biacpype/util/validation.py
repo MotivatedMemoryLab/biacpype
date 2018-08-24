@@ -38,11 +38,18 @@ def basic_structrue(study_path):
         raise ValueError("biac_id_mapping.csv is not in this biac directory!")
     if "Data" not in contents:
         raise ValueError("Folder \"Data\" is not in this biac directory!")
+    # check anat and func in Data
+    dirpath = os.path.join(dirpath, "Data")
+    sub_contents = os.listdir(dirpath)
+    if "Anat" not in sub_contents or "Func" not in sub_contents:
+        raise ValueError("\"Anat\" or \"Func\" or \"Behavioral\" are not the subfolders of Data")
+    # verify anat and func has the same folders
+    anat_folders = os.listdir(os.path.join(dirpath, "Anat")) 
+    func_folders = os.listdir(os.path.join(dirpath, "Func"))  
+    if anat_folders != func_folders:
+        raise ValueError("\"Anat\" and \"Func\" contains different folders!")
 
     
-
-
-
 def choose_json_dir(dirpath):
     if os.path.exists(dirpath):
         print("The output path already exists: do you want to overwrite it? [yes/no]")
