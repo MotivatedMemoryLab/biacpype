@@ -1,16 +1,13 @@
 from .bxh2bids import multi_bxhtobids
 import os
 import json
+import biacpype.util.constants as Const
 
 
-def bxh_to_bids(hopes_dreams_file):
+def bxh_to_bids():
     """Convert data to BIDS format.
-
-    params:
-        -hopes_dreams_file: the path to the hopes_dreams json file (if you used auto json generation, it 
-            would be in the your json output path)
     """
-    with open(hopes_dreams_file) as fd:
+    with open(os.path.join(Const.JSON_OUTPUT_PATH, "bxh2bids_hopes_dreams.json")) as fd:
         hopes_dreams = json.loads(fd.read())
 
     source_study_dir = hopes_dreams['source_study_dir']

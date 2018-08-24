@@ -17,10 +17,9 @@ LOG_PATH = "/Volumes/lj146/Documents/CBT.01/logs/"
 set_paths(STUDY_PATH=STUDY_PATH, JSON_OUTPUT_PATH=JSON_OUTPUT_PATH, BIDS_PATH=BIDS_PATH, LOG_PATH=LOG_PATH)
 
 # generate jsons
-generate_all_json_files(STUDY_PATH, JSON_OUTPUT_PATH, BIDS_PATH, LOG_PATH)
-# 
-# # convert to bids
-# bxh_to_bids(os.path.join(JSON_OUTPUT_PATH, "bxh2bids_hopes_dreams.json"))
-# 
-# # clean up
-# group_sessions(BIDS_PATH, "/Volumes/lj146/Documents/CBT.01")
+generate_all_json_files()
+# convert to bids
+bxh_to_bids()
+# clean up
+group_sessions()
+

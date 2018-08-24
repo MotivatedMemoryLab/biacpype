@@ -1,26 +1,27 @@
 import os
 from shutil import move, rmtree
 from ..generate_json.translation import subject_mapping
+import biacpype.util.constants as Const
 
 
-def group_sessions(bids_path, study_path):
+def group_sessions():
     """Rename all bids file with our subject id number mapping
 
     Expecting the same "biac_id_mapping.csv".
 
     params:
-        - study_path: the path to the study folder
+        - Const.STUDY_PATH: the path to the study folder
     """
-    mapping = subject_mapping(study_path)
-    for subj in os.listdir(bids_path):
+    mapping = subject_mapping(Const.STUDY_PATH)
+    for subj in os.listdir(Const.BIDS_PATH):
         if subj.startswith("sub"):
             subj_date_id = subj.split("-")[1]
             subj_id = subj_date_id.split("_")[1]
             real_id = mapping.loc[int(subj_id)].Real_ID
-            _renaming_all_files(os.path.join(bids_path, subj), subj_date_id, real_id)
+            _renaming_all_files(os.path.join(Const.BIDS_PATH, subj), subj_date_id, real_id)
             # rename folder, need to combine sessions
-            old_name = os.path.join(bids_path, subj) 
-            new_name = os.path.join(bids_path, "sub-" + real_id) 
+            old_name = os.path.join(Const.BIDS_PATH, subj) 
+            new_name = os.path.join(Const.BIDS_PATH, "sub-" + real_id) 
             if os.path.exists(new_name):
                 contents = os.listdir(old_name)
                 for content in contents:

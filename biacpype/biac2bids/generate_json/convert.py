@@ -5,7 +5,7 @@ from biacpype.util.validation import verify_biac_path,  choose_json_dir
 import biacpype.util.constants as Const 
 
 
-def generate_all_json_files(study_path, json_path, bids_path, log_path):
+def generate_all_json_files():
     """Generate all json files needed by bxh2bids
 
     params:
@@ -15,22 +15,21 @@ def generate_all_json_files(study_path, json_path, bids_path, log_path):
         - bids_path: path the output bids format data
         - log_path: path to save the logs
     """
-    msg = verify_biac_path(study_path) 
+    msg = verify_biac_path(Const.STUDY_PATH) 
     if msg:
         print("Error in folder check: " + msg) 
         return
 
-    if not choose_json_dir(json_path):
+    if not choose_json_dir(Const.JSON_OUTPUT_PATH):
         print("Please rerun the script with a different json output path!")
         return
-        
     # individual
-    subjects = generate_all_jsons(study_path, json_path)
+    subjects = generate_all_jsons(Const.STUDY_PATH, Const.JSON_OUTPUT_PATH)
     # group
-    _run_dream(study_path, bids_path, log_path, json_path, subjects)
+    _run_dream(Const.STUDY_PATH, Const.JSON_OUTPUT_PATH, Const.BIDS_PATH, Const.LOG_PATH, subjects)
 
 
-def _run_dream(study_path, bids_path, log_path, json_path, subjects):
+def _run_dream(study_path, json_path, bids_path, log_path, subjects):
     d = dict()
     d["source_study_dir"] = study_path
     d["target_study_dir"] = bids_path
