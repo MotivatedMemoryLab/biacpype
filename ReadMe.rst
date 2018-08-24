@@ -8,6 +8,15 @@ This repo serves as a pipeline for analyzing data from Duke Brain Imaging &
 Analysis Center `(biac) <https://www.biac.duke.edu>`_ supporting data format conversion 
 (to `BIDS <http://bids.neuroimaging.io/>`_) and common data analysis with `FSL <https://fsl.fmrib.ox.ac.uk/fsl/fslwiki>`_
 
+-------------
+Documentation
+-------------
+Please check out `<https://motivatedmemorylab.github.io/biacpype>`_ for code documentation.
+You can also find a user manual `here`_.
+
+.. _here: https://motivatedmemorylab.github.io/biacpype/manual/manual.pdf
+
+
 ------------
 Installation
 ------------
@@ -23,9 +32,6 @@ We intent to only support Python3.
 Modules
 -------
 1. :code:`biac2bids`: conversion from BIAC format (:code:`.nii.gz` & :code:`.bxh`) to BIDS
-    - :code:`generate_json`: generate json files needed by :code:`bxh2bids` automatically
-    - :code:`bxh2bids`: conversion algorithm. Credit: `jlgraner <https://github.com/jlgraner>`_ 
-
 
 
 
