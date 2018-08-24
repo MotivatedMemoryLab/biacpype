@@ -18,7 +18,7 @@ def verify_biac_path(dirpath):
     # check anat and func in Data
     dirpath = os.path.join(dirpath, "Data")
     sub_contents = os.listdir(dirpath)
-    if "Anat" not in sub_contents or "Func" not in sub_contents or "Behavioral" not in sub_contents:
+    if "Anat" not in sub_contents or "Func" not in sub_contents:
         return "\"Anat\" or \"Func\" or \"Behavioral\" are not the subfolders of Data"
     # verify anat and func has the same folders
     anat_folders = os.listdir(os.path.join(dirpath, "Anat")) 
@@ -27,6 +27,20 @@ def verify_biac_path(dirpath):
         return "\"Anat\" and \"Func\" contains different folders!" 
 
     return None
+
+
+def basic_structrue(study_path):
+    # check study path contains Data/ and valid biac_id_mapping.csv
+    if not os.path.exists(dirpath):
+        raise OSError("The study path not found!")
+    contents = os.listdir(dirpath)
+    if "biac_id_mapping.csv" not in contents:
+        raise ValueError("biac_id_mapping.csv is not in this biac directory!")
+    if "Data" not in contents:
+        raise ValueError("Folder \"Data\" is not in this biac directory!")
+
+    
+
 
 
 def choose_json_dir(dirpath):
@@ -54,7 +68,8 @@ def valid_biac_id_mapping_file(filepath):
         return valid
 
 
-def verify_data_folder_and_trans_file(data_folder):
+def verify_data_folder(data_folder):
+
     pass  
     
 
