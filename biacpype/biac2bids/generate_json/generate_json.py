@@ -8,21 +8,20 @@ __all__ = ['generate_all_jsons']
 
 
 ### call this ###
-def generate_all_jsons(study_path, trans_file_name, output_path):
+def generate_all_jsons(study_path, output_path):
     """Generate jsons for all subject and sessions
 
     params:
         - study_path: the path to the study folder
-        - trans_file_name: the name of the task name translation file (in each func folder)
         - output_path: the path to output generated json files
     
     returns: 
         - a list of subjects runned
     """
-    return _walk_study_path(study_path, trans_file_name, output_path)
+    return _walk_study_path(study_path, output_path)
     
 
-def _walk_study_path(study_path, trans_file_name, output_path):
+def _walk_study_path(study_path, output_path):
     func_path = os.path.join(study_path, "Data", "Func") 
     func_folders = os.listdir(func_path)
     regex = re.compile('\d+_\d+')
@@ -42,15 +41,15 @@ def _walk_study_path(study_path, trans_file_name, output_path):
             continue
         all_subjects_id.append(func)
         # build trans_dict
-        trans_d = trans_dict(trans_file_name, os.path.join(func_path, func))
+        trans_d = trans_dict(os.path.join(func_path, func))
         # build header
         if session != "":
             session = mapping.loc[int(subject)].Session
         _build_subj(dict_to_write, func, session)
         # build for func
-        _build_contents(dict_to_write, study_path, func, trans_dict=trans_d)
+        _build_contents(dict_to_write, study_path, func, trans_d, True)
         # build for anat
-        _build_contents(dict_to_write, study_path, func, trans_dict=None)
+        _build_contents(dict_to_write, study_path, func, trans_d, False)
         # output
         _write_to_json(dict_to_write, output_path, func)  
     return all_subjects_id
@@ -61,8 +60,8 @@ def _build_subj(dict_to_write, subject, session):
     dict_to_write["ses"] = session
 
 
-def _build_contents(dict_to_write, study_path, subject, trans_dict=None):
-    if trans_dict:
+def _build_contents(dict_to_write, study_path, subject, trans_dict, func):
+    if func:
         folder = "Func" # only Func needs translation
     else:
         folder = "Anat"
@@ -73,13 +72,13 @@ def _build_contents(dict_to_write, study_path, subject, trans_dict=None):
             content = dict()
             task_name, run, json_field = parse_task_and_run(bxh_file, trans_dict=trans_dict)
             # do a check and raise error here
-            if trans_dict:
+            if func:
                 content["task"] = task_name
             else:
-                content["acq"] = "anat"
+                content["acq"] = task_name
             content["run"]  = run
             contents[json_field] = content
-    key = "funcs" if trans_dict else "anats"
+    key = "funcs" if func else "anats"
     dict_to_write[key] = contents
 
 

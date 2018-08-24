@@ -20,8 +20,8 @@ def subject_mapping(study_path, delimiter=","):
     return pd.read_csv(os.path.join(study_path, "biac_id_mapping.csv"), index_col="BIAC_ID", dtype={"Real_ID":str})
     
 
-def trans_dict(filename, filepath, delimiter="\t", header=0):
-    """Given filename, translate code to task name.
+def trans_dict(filepath, delimiter="\t", header=0):
+    """translate code to task name (looking for series_note_note.txt)
 
     Expect the file to be in format ("|" is the delimiter)
     Code | Task
@@ -39,7 +39,7 @@ def trans_dict(filename, filepath, delimiter="\t", header=0):
         - header: the number of lines to skip for header
     returns: a translation dict
     """
-    with open(os.path.join(filepath, filename), "r") as f:
+    with open(os.path.join(filepath, "series_order_note.txt"), "r") as f:
         for _ in range(header):
             f.readline()
         d = dict()

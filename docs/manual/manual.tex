@@ -5,7 +5,7 @@
 \def\<#1>{\texttt{#1}}
 \setlength{\parskip}{1em}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%FILE TITLE%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%FILE%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 
 \title{\texttt{biacpype} User Manual}
@@ -14,6 +14,7 @@
 \tableofcontents
 \newpage
 
+%%%%% section: Overview
 \section{Overview}
 
     \texttt{biacpype} serves as a pipeline for converting raw fMRI data from Brain Imaging \& Analysis Center
@@ -26,7 +27,7 @@
         \item ...
     \end{itemize}
 
-    The structure of \texttt{biacpype} is: \par \vspace{.2in}
+    The structure of this repository is: \par \vspace{.2in}
 
     \begin{lstlisting}
 |-biacpype // serves as the library
@@ -50,7 +51,7 @@
     If you have any questions, please email Preston Jiang at \href{mailto:linxing.jiang@duke.edu}{linxing.jiang@duke.edu}
     or \href{mailto:prestonj@cs.washington.edu}{prestonj@cs.washington.edu}  \par
 
-
+%%%%% section: biac2bids
 \section{\texttt{biac2bids}}
 
    \texttt{biac2bids} module is the pipeline for converting raw data from BIAC in forms of \texttt{bxh} and
@@ -72,6 +73,7 @@
         \end{mybox}
     \end{figure}
 
+    %%%%% subsection: prerequisites
     \subsection{Prerequisites}
     \<biac2bids> makes the following assumptions on the format of your raw data from BIAC:
    \begin{lstlisting}[escapeinside={(*@}{@*)}]
@@ -84,7 +86,7 @@
 |    |  |       |-<biac5_subject_task_run>.bxh
 |    |  |       |-<biac5_subject_task_run>.nii.gz
 |    |  |       |-...
-|    |  |       |-(*@\color{red}{translation\_file}@*)
+|    |  |       |-(*@\color{red}{series\_order\_note.txt}@*)
 |    |  |-...
 |    |
 |    |-Anat
@@ -92,6 +94,8 @@
 |       |       |
 |       |       |-<biac5_subject_task_run>.bxh
 |       |       |-<biac5_subject_task_run>.nii.gz
+|       |       |-...
+|       |       |-(*@\color{red}{series\_order\_note.txt}@*)
 |       |-...
 |
 |-(*@\color{red}{biac\_id\_mapping.csv}@*)
@@ -104,7 +108,7 @@
             \<19354> and \<20140101\_19354> are both acceptable.
         \item Each file in \<Func> and \<Anat> must in format \<biac5\_subject\_task\_run>. Usually, \<task> is a single
         digit number, \<run> is two-digit. E.g. \<biac5\_19354\_4\_01.bxh>
-        \item Each subfolder in \<Func> \textbf{must contain} a \color{red}{\<translation\_file>} \color{black} to tell the pipeline
+        \item Each subfolder in \<Func> and \<Anat> \textbf{must contain} a \color{red}{\<series\_order\_note.txt>} \color{black} to tell the pipeline
         what each \<task> number stands for. E.g. 4 stands for ``TRAIN''. Requirements for this file are later
         explained.
         \item In the same folder containing \<Data>, there \textbf{must contain} a \color{red}{\<biac\_id\_mapping.csv>}
@@ -112,7 +116,7 @@
         Real\_ID used by your lab (e.g. 101). Requirements for this file are later explained.
     \end{itemize}
 
-    Requirements on \<translation\_file> are as follows:
+    Requirements on \<series\_order\_note.txt> are as follows:
     \begin{table}[!htb]
         \centering
         \begin{tabularx}{.6\linewidth}{Y|Y}
@@ -145,6 +149,16 @@
     \begin{itemize}
         \item The headers must follow the rules (watch letter cases)!
         \item If your experiment does not multiple sessions, use only the first and last column.
+    \end{itemize}
+    %%%%% subsection: Scripts
+    \subsection{Scripts}
+    The script associated with this module is \<scripts/convert\_to\_bids.py>. There are four 
+    parameters the user has to toggle. They are:
+    \begin{itemize}
+        \item \<STUDY\_PATH>: the path to your study file (which contains \<Data> and \<bids\_id\_mapping.csv>)
+        \item \<JSON\_OUTPUT\_PATH>: the path where the user wants the json files to be saved
+        \item \<BIDS\_PATH>: the path where the user wants the new BIDS format data to be saved
+        \item \<LOG\_PATH>: the path where the user wants the logs to be saved
     \end{itemize}
 
 \end{document}

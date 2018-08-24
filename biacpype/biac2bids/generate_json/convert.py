@@ -4,7 +4,7 @@ from .generate_json import generate_all_jsons
 from biacpype.util.check_input import verify_biac_path,  choose_json_dir
 
 
-def generate_all_json_files(study_path, trans_file, json_path, bids_path, log_path):
+def generate_all_json_files(study_path, json_path, bids_path, log_path):
     """Generate all json files needed by bxh2bids
 
     params:
@@ -24,7 +24,7 @@ def generate_all_json_files(study_path, trans_file, json_path, bids_path, log_pa
         return
         
     # individual
-    subjects = generate_all_jsons(study_path, trans_file, json_path)
+    subjects = generate_all_jsons(study_path, json_path)
     # group
     _run_dream(study_path, bids_path, log_path, json_path, subjects)
 
