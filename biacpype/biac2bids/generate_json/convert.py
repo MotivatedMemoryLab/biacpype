@@ -2,6 +2,7 @@ import os
 import json
 from .generate_json import generate_all_jsons
 from biacpype.util.validation import verify_biac_path,  choose_json_dir
+import biacpype.util.constants as Const 
 
 
 def generate_all_json_files(study_path, json_path, bids_path, log_path):
