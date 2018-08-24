@@ -41,13 +41,13 @@ def basic_structrue(study_path):
     if "Data" not in contents:
         raise ValueError("Folder \"Data\" is not in this biac directory!")
     # check anat and func in Data
-    dirpath = os.path.join(study_path, "Data")
-    sub_contents = os.listdir(study_path)
+    subpath = os.path.join(study_path, "Data")
+    sub_contents = os.listdir(subpath)
     if "Anat" not in sub_contents or "Func" not in sub_contents:
         raise ValueError("\"Anat\" or \"Func\" or \"Behavioral\" are not the subfolders of Data")
     # verify anat and func has the same folders
-    anat_folders = os.listdir(os.path.join(study_path, "Anat")) 
-    func_folders = os.listdir(os.path.join(dirpath, "Func"))  
+    anat_folders = os.listdir(os.path.join(subpath, "Anat")) 
+    func_folders = os.listdir(os.path.join(subpath, "Func"))  
     if anat_folders != func_folders:
         raise ValueError("\"Anat\" and \"Func\" contains different folders!")
      
