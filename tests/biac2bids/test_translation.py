@@ -1,6 +1,7 @@
 import os
 import unittest
-from biacpype.biac2bids.generate_json.translation import trans_dict
+from biacpype.util.translation import trans_dict
+
 
 class TranslationTest(unittest.TestCase):
 

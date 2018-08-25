@@ -1,10 +1,13 @@
+import os
 import logging
+from . import constants as Const
 
-def init_logger(level, log_path):
+
+def init_logger(level, log_file):
     logger = logging.getLogger()
     logger.setLevel(level)
 
-    log_file = logging.FileHandler(log_path)
+    log_file = logging.FileHandler(os.path.join(Const.SYS_LOG, log_file))
     log_format = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
     log_file.setFormatter(log_format)
 

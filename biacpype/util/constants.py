@@ -1,7 +1,12 @@
+import os
+
+
 STUDY_PATH = None
 JSON_OUTPUT_PATH = None
 BIDS_PATH = None
-LOG_PATH = None
+LOG_PATH = None # log of bxh2bids
+SYS_LOG = os.path.dirname(__file__)
+
 
 def set_paths(**kwargs):
     global STUDY_PATH
@@ -13,3 +18,5 @@ def set_paths(**kwargs):
     JSON_OUTPUT_PATH = kwargs.get("JSON_OUTPUT_PATH", "")
     LOG_PATH = kwargs.get("LOG_PATH", "")
     BIDS_PATH = kwargs.get("BIDS_PATH", "")
+    
+    print(LOG_PATH)

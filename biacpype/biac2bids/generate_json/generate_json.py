@@ -1,7 +1,7 @@
 import json
 import os 
 import re
-from .translation import trans_dict, parse_task_and_run, subject_mapping
+from biacpype.util.translation import trans_dict, parse_task_and_run, subject_mapping
 
 
 __all__ = ['generate_all_jsons']

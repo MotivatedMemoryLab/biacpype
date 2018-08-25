@@ -1,7 +1,7 @@
 import os
 import shutil
 import pandas as pd
-from ..biac2bids.generate_json.translation import trans_dict
+from .translation import trans_dict
 from .create_logger import init_logger
 from .decorators import logged
 
@@ -27,10 +27,10 @@ def verify_biac_path(dirpath):
     func_folders = os.listdir(os.path.join(dirpath, "Func"))  
     if anat_folders != func_folders:
         return "\"Anat\" and \"Func\" contains different folders!" 
-
     return None
 
-# @logged(logger)
+
+@logged("validation.log")
 def basic_structrue(study_path):
     # check study path contains Data/ and valid biac_id_mapping.csv
     if not os.path.exists(study_path):
