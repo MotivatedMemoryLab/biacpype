@@ -3,7 +3,9 @@ python:
   - "3.6"
 install:
   - python setup.py install
+before_script: mkdir biacpype/logs
 script: pytest
+after_script: rm -rf biacpype/logs
 notifications:
   email:
     on_success: never
