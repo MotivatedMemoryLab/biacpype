@@ -1,8 +1,6 @@
 import os
 import shutil
 import pandas as pd
-from .translation import trans_dict
-from .create_logger import init_logger
 from .decorators import logged
 
 
@@ -49,6 +47,11 @@ def biac_id_mapping_file(filepath):
             raise ValueError("biac_id_mapping.csv not valid! Please check user manual")
 
     
+@logged("validation.log")
+def series_order_note_file(filepath):
+    pass        
+
+
 def choose_json_dir(dirpath):
     if os.path.exists(dirpath):
         print("The output path already exists: do you want to overwrite it? [yes/no]")

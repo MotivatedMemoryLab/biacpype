@@ -3,8 +3,7 @@ import logging
 from . import constants as Const
 
 
-def init_logger(level, log_file):
-
+def get_logger(level, log_file):
     logger = logging.getLogger(log_file)
     if logger.hasHandlers():
         logger.handlers.clear()

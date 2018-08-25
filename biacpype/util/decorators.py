@@ -1,11 +1,11 @@
 import os
 import logging
-from .create_logger import init_logger
+from .create_logger import get_logger 
 from . import constants as Const
 
 def logged(log_file):
     def decorate(func):
-        logger = init_logger(logging.DEBUG, os.path.join(Const.SYS_LOG, log_file))
+        logger = get_logger(logging.DEBUG, os.path.join(Const.SYS_LOG, log_file))
         def wrapper(*args, **kwargs):
             try:
                 func(*args, **kwargs)
