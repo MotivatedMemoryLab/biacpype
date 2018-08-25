@@ -5,7 +5,7 @@ STUDY_PATH = None
 JSON_OUTPUT_PATH = None
 BIDS_PATH = None
 LOG_PATH = None # log of bxh2bids
-SYS_LOG = os.path.dirname(__file__)
+SYS_LOG = os.path.join(os.path.dirname(__file__), "../logs")
 
 
 def set_paths(**kwargs):
