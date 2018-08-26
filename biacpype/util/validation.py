@@ -6,7 +6,7 @@ from .decorators import logged
 
 def verify_biac_path(study_path):
     basic_structrue(study_path)
-    biac_id_mapping_file(os.path.join(study_path, "biac_id_mapping.csv"))
+    biac_id_mapping_file(os.path.join(study_path, "biac_id_mapping.tsv"))
     return None
 
 
@@ -16,8 +16,8 @@ def basic_structrue(study_path):
     if not os.path.exists(study_path):
         raise OSError("The study path not found!")
     contents = os.listdir(study_path)
-    if "biac_id_mapping.csv" not in contents:
-        raise ValueError("biac_id_mapping.csv is not in this biac directory!")
+    if "biac_id_mapping.tsv" not in contents:
+        raise ValueError("biac_id_mapping.tsv is not in this biac directory!")
     if "Data" not in contents:
         raise ValueError("Folder \"Data\" is not in this biac directory!")
     # check anat and func in Data
@@ -35,7 +35,7 @@ def basic_structrue(study_path):
 @logged("validation.log")
 def biac_id_mapping_file(filepath):
     with open(filepath, "r") as f:
-        headers = f.readline().split(",")
+        headers = f.readline().rstrip().split("\t")
         valid = True
         num_headers = 0
         if len(headers) == 2:
