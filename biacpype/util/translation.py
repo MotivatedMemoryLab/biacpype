@@ -2,11 +2,11 @@ import os
 import pandas as pd
 
 
-def subject_mapping(study_path, delimiter=","):
-    """Create subject id, session, real id mapping.
+def subject_mapping(study_path):
+    r"""Create subject id, session, real id mapping.
     
     Read in the "biac_id_mapping.csv" file, expected in the study folder. The file is
-    expected to be in format ("|" is the delimiter, header has to be exact):
+    expected to be in format ("|" is TAB (\t), header has to be exact):
     BIAC_ID (primary key) | Session | Real_ID
     -----------------------------------------
             18293         |   SRM   |   101
@@ -15,15 +15,14 @@ def subject_mapping(study_path, delimiter=","):
 
     params:
         - study_path: the path to the study folder 
-        - delimiter: the delimiter used in csv. default to be ","
     """
     return pd.read_csv(os.path.join(study_path, "biac_id_mapping.csv"), index_col="BIAC_ID", dtype={"Real_ID":str})
     
 
-def trans_dict(filepath, delimiter="\t", header=0):
-    """translate code to task name (looking for series_note_note.txt)
+def trans_dict(filepath, header=0):
+    r"""translate code to task name (looking for series_note_note.txt)
 
-    Expect the file to be in format ("|" is the delimiter)
+    Expect the file to be in format ("|" is the delimiter TAB (\t))
     Code | Task
     ------------
       4  | train
@@ -35,7 +34,6 @@ def trans_dict(filepath, delimiter="\t", header=0):
         - filename: file name
         - subject: subject number
         - data_path: the path to Data folder
-        - delimiter: delimiter for the file (default to tab)
         - header: the number of lines to skip for header
     returns: a translation dict
     """
@@ -47,7 +45,7 @@ def trans_dict(filepath, delimiter="\t", header=0):
             line = line.rstrip()
             # not empty line
             if line != "":
-                info = line.split(delimiter)
+                info = line.split("\t")
                 d[info[0]] = info[1]
     return d
 
