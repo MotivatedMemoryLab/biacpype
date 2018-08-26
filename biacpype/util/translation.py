@@ -63,7 +63,6 @@ def parse_task_and_run(filename, trans_dict=None, delimiter="_"):
         - delimiter: delimiter of the filename (default to be "_")
     returns: task name and run number (if any)
     """
-    assert "/" not in filename, "Please use file name alone (not relative/full path)"
     filename = filename.rstrip(".bxh")
     info = filename.split(delimiter)
     task = info[2]

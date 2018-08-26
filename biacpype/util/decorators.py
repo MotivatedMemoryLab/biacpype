@@ -1,6 +1,7 @@
 import os
 import logging
 from .create_logger import get_logger 
+from .InvalidFileError import InvalidFileError
 from . import constants as Const
 
 def logged(log_file):
@@ -11,8 +12,8 @@ def logged(log_file):
                 func(*args, **kwargs)
                 logger.info(func.__name__ + " OK!")
                 return
-            except Exception as e:
-                logger.error(func.__name__ + " " + str(e))
+            except InvalidFileError as e:
+                logger.error(func.__name__ + " " + str(e.msg) + " -->" + e.filename)
         return wrapper
     return decorate
 
