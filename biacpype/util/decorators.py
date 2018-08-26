@@ -12,7 +12,7 @@ def logged(log_file):
                 logger.info(func.__name__ + " OK!")
                 return
             except Exception as e:
-                logger.error(e)
+                logger.error(func.__name__ + " " + str(e))
         return wrapper
     return decorate
 
