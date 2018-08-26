@@ -2,6 +2,7 @@ import os
 import shutil
 import pandas as pd
 from .decorators import logged
+from .InvalidFileError import InvalidFileError
 
 
 def verify_biac_path(study_path):
@@ -9,6 +10,21 @@ def verify_biac_path(study_path):
     biac_id_mapping_file(os.path.join(study_path, "biac_id_mapping.tsv"))
     return None
 
+
+def data_folder_file_matching(study_path):
+    # first Func
+    func_path =  os.path.join(study_path, "Data", "Func") 
+    func_folders = os.listdir(func_path)
+    for folder in func_folders:
+        if not folder.startswith("."):
+            # check if the rest of files have valid naming
+            all_files = os.listdir(os.path.join(func_path, folder)) 
+            bxh_files = filter(lambda x: x.endswith(".bxh"), all_files)
+            for bxh_file in bxh_files:
+                if bxh_file.rstrip(".bxh") + ".nii.gz" not in all_files:
+                    raise ValueError()
+            
+            
 
 @logged("validation.log")
 def basic_structrue(study_path):
@@ -47,15 +63,15 @@ def biac_id_mapping_file(filepath):
         else:
             valid = False
         if not valid:
-            raise ValueError("biac_id_mapping.tsv header not valid! Please check user manual")
+            raise InvalidFileError("biac_id_mapping.tsv header not valid! Please check user manual", filepath)
         # check the rest of the lines
         biac_ids = set() 
         for line_number, line in enumerate(f):
             info = line.split("\t") 
             if len(info) != num_headers:
-                raise ValueError("line {} is not valid: it has {} parts".format(line_number + 2, len(info)))
+                raise InvalidFileError("line {} is not valid: it has {} parts".format(line_number + 2, len(info)), filepath)
             if info[0] in biac_ids:
-                raise ValueError("line {} has duplicate biac_id: {}".format(line_number + 2, info[0]))
+                raise InvalidFileError("line {} has duplicate biac_id: {}".format(line_number + 2, info[0]), filepath)
             biac_ids.add(info[0])                
 
     
@@ -66,10 +82,22 @@ def series_order_note_file(filepath):
         for line_number, line in enumerate(f):
             info = line.split("\t") 
             if len(info) != 2:
-                raise ValueError("line {} is not valid: it has {} parts".format(line_number + 1, len(info)))
+                raise InvalidFileError("line {} is not valid: it has {} parts".format(line_number + 1, len(info)), filepath)
             if info[0] in task_code:
-                raise ValueError("line {} has duplicate task code: {}".format(line_number + 1, info[0]))
+                raise InvalidFileError("line {} has duplicate task code: {}".format(line_number + 1, info[0]), filepath)
             task_code.add(info[0])                
+
+
+@logged("validation.log")
+def file_naming(filename):
+    filename = filename.rstrip(".bxh")    
+    info = filename.split("_")
+    if len(info) != 3 and len(info) != 4:
+        raise InvalidFileError("Invalid naming", filename)
+    # none of the parts should contain hyphens
+    for i in info:
+        if "-" in i:
+            raise InvalidFileError("filename contains hyphens!", filename)
 
 
 def choose_json_dir(dirpath):

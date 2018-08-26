@@ -14,6 +14,8 @@ def logged(log_file):
                 return
             except InvalidFileError as e:
                 logger.error(func.__name__ + " " + str(e.msg) + " -->" + e.filename)
+            except Exception as e:
+                logger.error(func.__name__ + " " + str(e))
         return wrapper
     return decorate
 
