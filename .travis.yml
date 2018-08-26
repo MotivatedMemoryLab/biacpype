@@ -8,8 +8,9 @@ install:
 before_script: mkdir biacpype/logs
 script: py.test
 after_script: 
-  - coveralls
   - rm -rf biacpype/logs
+after_success:
+  - coveralls
 notifications:
   email:
     on_success: never

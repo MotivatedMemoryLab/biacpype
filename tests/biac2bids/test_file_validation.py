@@ -16,3 +16,6 @@ class BiacIdMappingValidationTest(unittest.TestCase):
 
     def test_duplicate_id(self):
         self.assertRaises(ValueError, biac_id_mapping_file("tests/files/validations/id_invalid_headers_duplicate.tsv"))
+
+    def test_valid(self):
+        biac_id_mapping_file("tests/files/validations/id_valid.tsv")
