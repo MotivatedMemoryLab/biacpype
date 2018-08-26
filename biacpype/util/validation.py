@@ -37,20 +37,31 @@ def biac_id_mapping_file(filepath):
     with open(filepath, "r") as f:
         headers = f.readline().split(",")
         valid = True
+        num_headers = 0
         if len(headers) == 2:
             valid = valid and (headers[0] == "BIAC_ID") and (headers[1] == "Real_ID")
+            num_headers = 2
         elif len(headers) == 3:
             valid = valid and (headers[0] == "BIAC_ID") and (headers[1] == "Session") and (headers[2] == "Real_ID")
+            num_headers = 3
         else:
             valid = False
         if not valid:
-            raise ValueError("biac_id_mapping.csv not valid! Please check user manual")
+            raise ValueError("biac_id_mapping.tsv header not valid! Please check user manual")
+        # check the rest of the lines
+        biac_ids = set() 
+        for line_number, line in enumerate(f):
+            info = line.split("\t") 
+            if len(info) != num_headers:
+                raise ValueError("line {} is not valid: it has {} parts".format(line_number + 2, len(info)))
+            if info[0] in biac_ids:
+                raise ValueError("line {} has duplicate biac_id: {}".format(line_number + 2, info[0]))
+            biac_ids.add(info[0])                
 
     
 @logged("validation.log")
-def series_order_note_file(filepath):
-    pass        
-
+def data_folder(filepath):
+    pass
 
 def choose_json_dir(dirpath):
     if os.path.exists(dirpath):
