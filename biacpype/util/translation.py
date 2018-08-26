@@ -37,7 +37,7 @@ def trans_dict(filepath, header=0):
         - header: the number of lines to skip for header
     returns: a translation dict
     """
-    with open(os.path.join(filepath, "series_order_note.txt"), "r") as f:
+    with open(os.path.join(filepath, "series_order_note.tsv"), "r") as f:
         for _ in range(header):
             f.readline()
         d = dict()
