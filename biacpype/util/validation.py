@@ -60,8 +60,17 @@ def biac_id_mapping_file(filepath):
 
     
 @logged("validation.log")
-def data_folder(filepath):
-    pass
+def series_order_note_file(filepath):
+    with open(filepath, "r") as f:
+        task_code = set()
+        for line_number, line in enumerate(f):
+            info = line.split("\t") 
+            if len(info) != 2:
+                raise ValueError("line {} is not valid: it has {} parts".format(line_number + 1, len(info)))
+            if info[0] in task_code:
+                raise ValueError("line {} has duplicate task code: {}".format(line_number + 1, info[0]))
+            task_code.add(info[0])                
+
 
 def choose_json_dir(dirpath):
     if os.path.exists(dirpath):
