@@ -6,7 +6,7 @@ install:
   - pip install pytest pytest-cov
   - pip install coveralls
 before_script: mkdir biacpype/logs
-script: pytest --conv
+script: pytest --cov
 after_script: 
   - rm -rf biacpype/logs
 after_success:
