@@ -86,7 +86,7 @@
 |    |  |       |-<biac5_subject_task_run>.bxh
 |    |  |       |-<biac5_subject_task_run>.nii.gz
 |    |  |       |-...
-|    |  |       |-(*@\color{red}{series\_order\_note.txt}@*)
+|    |  |       |-(*@\color{red}{series\_order\_note.tsv}@*)
 |    |  |-...
 |    |
 |    |-Anat
@@ -95,10 +95,10 @@
 |       |       |-<biac5_subject_task_run>.bxh
 |       |       |-<biac5_subject_task_run>.nii.gz
 |       |       |-...
-|       |       |-(*@\color{red}{series\_order\_note.txt}@*)
+|       |       |-(*@\color{red}{series\_order\_note.tsv}@*)
 |       |-...
 |
-|-(*@\color{red}{biac\_id\_mapping.csv}@*)
+|-(*@\color{red}{biac\_id\_mapping.tsv}@*)
     \end{lstlisting}
 
     Explanations:
@@ -108,15 +108,14 @@
             \<19354> and \<20140101\_19354> are both acceptable.
         \item Each file in \<Func> and \<Anat> must in format \<biac5\_subject\_task\_run>. Usually, \<task> is a single
         digit number, \<run> is two-digit. E.g. \<biac5\_19354\_4\_01.bxh>
-        \item Each subfolder in \<Func> and \<Anat> \textbf{must contain} a \color{red}{\<series\_order\_note.txt>} \color{black} to tell the pipeline
-        what each \<task> number stands for. E.g. 4 stands for ``TRAIN''. Requirements for this file are later
-        explained.
-        \item In the same folder containing \<Data>, there \textbf{must contain} a \color{red}{\<biac\_id\_mapping.csv>}
+        \item Each subfolder in \<Func> and \<Anat> \textbf{must contain} a \color{red}{\<series\_order\_note.tsv>} \color{black} to tell the pipeline
+        what each \<task> number stands for. E.g. 4 stands for ``TRAIN''. Requirements for this file are later explained.
+        \item In the same folder containing \<Data>, there \textbf{must contain} a \color{red}{\<biac\_id\_mapping.tsv>}
         \color{black} which tells the pipeline the mapping from BIAC\_ID (e.g. 19354) to the session name (e.g. Session-1) and the
         Real\_ID used by your lab (e.g. 101). Requirements for this file are later explained.
     \end{itemize}
 
-    Requirements on \<series\_order\_note.txt> are as follows:
+    Requirements on \<series\_order\_note.tsv> are as follows:
     \begin{table}[!htb]
         \centering
         \begin{tabularx}{.6\linewidth}{Y|Y}
@@ -128,12 +127,13 @@
     \par
     Note:
     \begin{itemize}
+        \item The values must be \textbf{tab} separated.
         \item Task numbers in the first column \textbf{\em{must}} match that in the imaging files. For example, a ``4''
             in \<translation\_file> and a ``004'' in the imaging file will result in an error.
         \item The first column must be task code, and the second column must be the task name. There can only be two columns
     \end{itemize}
 
-    Requirements on \<biac\_id\_mapping.csv> are as follows:
+    Requirements on \<biac\_id\_mapping.tsv> are as follows:
     \begin{table}[!htb]
         \centering
         \begin{tabularx}{.6\linewidth}{Y|Y|Y}
@@ -147,6 +147,7 @@
     \par
     Note:
     \begin{itemize}
+        \item The values must be \textbf{tab} separated.
         \item The headers must follow the rules (watch letter cases)!
         \item If your experiment does not multiple sessions, use only the first and last column.
     \end{itemize}
