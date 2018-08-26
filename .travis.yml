@@ -2,11 +2,13 @@ language: python
 python:
   - "3.6"
 install:
-  - python setup.py install
   - pip install pytest pytest-cov
   - pip install coveralls
-before_script: mkdir biacpype/logs
-script: pytest --cov
+  - pip install -r requirements.txt
+before_script: 
+  - mkdir biacpype/logs
+script: 
+  - pytest --cov
 after_script: 
   - rm -rf biacpype/logs
 after_success:
