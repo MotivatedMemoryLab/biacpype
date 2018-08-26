@@ -2,29 +2,76 @@ import os
 import shutil
 import pandas as pd
 from .decorators import logged
+from .translation import trans_dict
+from . import constants as Const
 from .InvalidFileError import InvalidFileError
 
 
 def verify_biac_path(study_path):
+    """This is the pipeline to verify the study path has everything needed to
+    be automatically converted to BIDS format. The steps are:
+
+    1. basic_structure: check folder has {Data, biac_id_mapping.tsv}, Data has {Anat, Func}, 
+        both Anat and Func contain the same folders, and each of these folders contains series_order_note.tsv
+    
+    2. biac_id_mapping_file: check biac_id_mapping.tsv is valid
+
+    3. all_series_order_note_files: check all series_order_note.tsv files in each subfolder is valid
+
+    4. data_folder_file_matching: check each .bxh file is matched with .nii.gz file, and has valid task code
+        translation which can be found in series_order_note.tsv 
+
+    Logs generated during validation can be found in biacpype/logs/validation.log
+    """
     basic_structrue(study_path)
     biac_id_mapping_file(os.path.join(study_path, "biac_id_mapping.tsv"))
+    all_series_order_note_files(study_path)
+    data_folder_file_matching(study_path, folder_type="Anat")
+    data_folder_file_matching(study_path, folder_type="Func")
     return None
 
 
-def data_folder_file_matching(study_path):
+@logged("validation.log")
+def data_folder_file_matching(study_path, folder_type="Func"):
     # first Func
-    func_path =  os.path.join(study_path, "Data", "Func") 
-    func_folders = os.listdir(func_path)
-    for folder in func_folders:
+    data_path =  os.path.join(study_path, "Data", folder_type) 
+    data_folders = os.listdir(data_path)
+    for folder in data_folders:
         if not folder.startswith("."):
             # check if the rest of files have valid naming
-            all_files = os.listdir(os.path.join(func_path, folder)) 
+            all_files = os.listdir(os.path.join(data_path, folder)) 
             bxh_files = filter(lambda x: x.endswith(".bxh"), all_files)
+            # build series_order_note dictionrary
+            trans_d = trans_dict(os.path.join(data_path, folder))
             for bxh_file in bxh_files:
-                if bxh_file.rstrip(".bxh") + ".nii.gz" not in all_files:
-                    raise ValueError()
-            
-            
+                # check valid file naming
+                bxh_name = bxh_file.rstrip(".bxh")    
+                info = bxh_name.split("_")
+                if len(info) != 3 and len(info) != 4:
+                    raise InvalidFileError("Invalid naming", os.path.join(data_path, folder, bxh_file))
+                # none of the parts should contain hyphens
+                for i in info:
+                    if "-" in i:
+                        raise InvalidFileError("filename contains hyphens!", os.path.join(data_path, folder, bxh_file))
+                # check matching nii.gz file
+                if bxh_name + ".nii.gz" not in all_files:
+                    raise InvalidFileError("Did not find matching nii.gz file: ", os.path.join(data_path, folder, bxh_file))
+                # check that the task code is in dictionary
+                if info[2] not in trans_d:
+                    raise InvalidFileError("task code not found in series_order_note.tsv", os.path.join(data_path, folder, bxh_file))
+                
+
+def all_series_order_note_files(study_path):
+    anat_folders = os.listdir(os.path.join(study_path, "Data", "Anat")) 
+    func_folders = os.listdir(os.path.join(study_path, "Data", "Func"))  
+    # check all subfolders have valid series_order_note.tsv
+    for folder in anat_folders:
+        if not folder.startswith("."): 
+            series_order_note_file(os.path.join(study_path, "Data", "Anat", folder, "series_order_note.tsv"))
+    for folder in func_folders:
+        if not folder.startswith("."): 
+            series_order_note_file(os.path.join(study_path, "Data", "Func", folder, "series_order_note.tsv"))
+
 
 @logged("validation.log")
 def basic_structrue(study_path):
@@ -46,7 +93,14 @@ def basic_structrue(study_path):
     func_folders = os.listdir(os.path.join(subpath, "Func"))  
     if anat_folders != func_folders:
         raise ValueError("\"Anat\" and \"Func\" contains different folders!")
-     
+    # check all subfolders have series_order_note.tsv
+    for folder in anat_folders:
+        if not folder.startswith(".") and "series_order_note.tsv" not in os.listdir(os.path.join(subpath, "Anat", folder)):
+            raise ValueError("{} does not contain series_order_note.tsv".format(os.path.join(subpath, "Anat", folder)))
+    for folder in func_folders:
+        if not folder.startswith(".") and "series_order_note.tsv" not in os.listdir(os.path.join(subpath, "Func", folder)):
+            raise ValueError("{} does not contain series_order_note.tsv".format(os.path.join(subpath, "Func", folder)))
+        
 
 @logged("validation.log")
 def biac_id_mapping_file(filepath):
@@ -74,7 +128,7 @@ def biac_id_mapping_file(filepath):
                 raise InvalidFileError("line {} has duplicate biac_id: {}".format(line_number + 2, info[0]), filepath)
             biac_ids.add(info[0])                
 
-    
+
 @logged("validation.log")
 def series_order_note_file(filepath):
     with open(filepath, "r") as f:
@@ -86,18 +140,6 @@ def series_order_note_file(filepath):
             if info[0] in task_code:
                 raise InvalidFileError("line {} has duplicate task code: {}".format(line_number + 1, info[0]), filepath)
             task_code.add(info[0])                
-
-
-@logged("validation.log")
-def file_naming(filename):
-    filename = filename.rstrip(".bxh")    
-    info = filename.split("_")
-    if len(info) != 3 and len(info) != 4:
-        raise InvalidFileError("Invalid naming", filename)
-    # none of the parts should contain hyphens
-    for i in info:
-        if "-" in i:
-            raise InvalidFileError("filename contains hyphens!", filename)
 
 
 def choose_json_dir(dirpath):

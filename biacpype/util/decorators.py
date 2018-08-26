@@ -18,4 +18,3 @@ def logged(log_file):
                 logger.error(func.__name__ + " " + str(e))
         return wrapper
     return decorate
-

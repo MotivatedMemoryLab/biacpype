@@ -15,7 +15,6 @@ LOG_PATH = "/Volumes/lj146/Documents/CBT.01/logs/"
 
 # set paths
 set_paths(STUDY_PATH=STUDY_PATH, JSON_OUTPUT_PATH=JSON_OUTPUT_PATH, BIDS_PATH=BIDS_PATH, LOG_PATH=LOG_PATH)
-
 # generate jsons
 generate_all_json_files()
 # convert to bids
