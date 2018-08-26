@@ -1,8 +1,10 @@
 import os
 import shutil
+import logging
 import pandas as pd
 from .decorators import logged
 from .translation import trans_dict
+from .create_logger import get_logger
 from . import constants as Const
 from .InvalidFileError import InvalidFileError
 
@@ -23,12 +25,20 @@ def verify_biac_path(study_path):
 
     Logs generated during validation can be found in biacpype/logs/validation.log
     """
+    logger = get_logger(logging.DEBUG, "validation.log", mode='w') # clear file if existed
+    logger.info("Start validation...")
     basic_structrue(study_path)
     biac_id_mapping_file(os.path.join(study_path, "biac_id_mapping.tsv"))
     all_series_order_note_files(study_path)
     data_folder_file_matching(study_path, folder_type="Anat")
     data_folder_file_matching(study_path, folder_type="Func")
-    return None
+    error_lines = parse_validation_file(os.path.join(Const.SYS_LOG, "validation.log"))
+    if not len(error_lines):
+        print("Your study path passed validation! You are now ready for conversion")
+    else:
+        print("### Following erros happend: ###")
+        for line in error_lines:
+            print(line)
 
 
 @logged("validation.log")
@@ -140,6 +150,16 @@ def series_order_note_file(filepath):
             if info[0] in task_code:
                 raise InvalidFileError("line {} has duplicate task code: {}".format(line_number + 1, info[0]), filepath)
             task_code.add(info[0])                
+
+
+def parse_validation_file(log_file):
+    lines = None # its' just good practice
+    with open(log_file, "r") as f:
+        lines = []
+        for i in f:
+            if "ERROR" in i:
+                lines.append(i) 
+    return lines
 
 
 def choose_json_dir(dirpath):
