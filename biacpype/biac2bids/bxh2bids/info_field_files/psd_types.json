@@ -105,5 +105,17 @@
     "fMRI 391 x 3: SRM train":{
             "type":"func",
             "label":"bold"
-            }
+            },
+    "fMRI 481x5":{
+            "type":"func",
+            "label":"bold"
+    },
+    "fMRI 408":{
+            "type":"func",
+            "label":"bold"
+    },
+    "fMRI 308 resting":{
+            "type":"func",
+            "label":"bold"
+    }
 }
