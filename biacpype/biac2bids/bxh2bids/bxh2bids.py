@@ -488,6 +488,11 @@ def convert_bxh(bxh_file, bxh_info_dict, target_study_dir=None):
     #Directory of the bxh file
     bxh_dir = os.path.split(bxh_info_dict['orig_image'])[0]
 
+    # CHANGE added next four lines
+    with open(bxh_file) as fd:
+        bxh_dict = xmltodict.parse(fd.read())
+    bxh_desc = bxh_dict['bxh']['acquisitiondata']['description']
+
     if bxh_info_dict['scan_type'] == 'func':
 
         #Put together the output directory
@@ -854,6 +859,10 @@ def compare_output_names(multi_bxh_info_dict):
             # add a note to manual to make sure user follows the format
             for matching_bxh in matching_list:
                 bxh_number = os.path.splitext(bxh)[0][-3:]
+                # if this in form d-d
+                namings = bxh_number.split("-")
+                if len(namings) == 2 and namings[1] == namings[0]:
+                    bxh_number = namings[1]
                 num_list.append(int(bxh_number))
             #Order the matching list by acquisition number
             ordered_bxh_list = [x for _,x in sorted(zip(num_list,matching_list), key=lambda pair: pair[0])]
