@@ -33,10 +33,7 @@
                     "type": "anat",
                     "label": "T1w"
                     },
-    "SSFSE": {
-                    "type": "anat",
-                    "label": "T2w"
-                    },
+                    
     "Ax FSPGR BRAVO": {
                     "type": "anat",
                     "label": "T1w"
@@ -76,17 +73,37 @@
     "SPGR_GRAPPA Iron": {
                     "type": "anat",
                     "label": "T1w"
-    			},
-    "fMRI 481x5": {
-	    	    "type": "func",
-	    	    "label": "bold"
-    },
-    "fMRI 408": {
-	    	    "type": "func",
-	    	    "label": "bold"
-    },
-    "fMRI 308 resting": {
-	    	    "type": "func",
-	    	    "label": "bold"
-    }
+                    },
+    "SSFSE":{
+            "type":"anat",
+            "label":"T2w"
+            },
+    "fMRI Resting x 1":{
+            "type":"func",
+            "label":"bold"
+            },
+    "fMRI 253 x1: SRM test":{
+            "type":"func",
+            "label":"bold"
+            },
+    "fMRI 385 x 3: SRM train":{
+            "type":"func",
+            "label":"bold"
+            },
+    "fMRI 286 x2: PRL":{
+            "type":"func",
+            "label":"bold"
+            },
+    "fMRI 38 X 1: localizer":{
+            "type":"func",
+            "label":"bold"
+            },
+    "fMRI 259 x1: SRM test":{
+            "type":"func",
+            "label":"bold"
+            },
+    "fMRI 391 x 3: SRM train":{
+            "type":"func",
+            "label":"bold"
+            }
 }
