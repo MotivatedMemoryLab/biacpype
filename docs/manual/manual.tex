@@ -23,6 +23,7 @@
     \texttt{biacpype} contains:
 
     \begin{itemize}
+        \item \texttt{util}: BIAC dataset validation, logging 
         \item \texttt{biac2bids}: conversion from BIAC to BIDS
         \item ...
     \end{itemize}
@@ -46,36 +47,19 @@
     \end{lstlisting}
 
     The following section will introduce main modules of \texttt{biacpype}, and the corresponding scripts for using
-    the pipelines. \par
+    the pipelines. All scripts are described in \textbf{Scripts} subsections.
 
     If you have any questions, please email Preston Jiang at \href{mailto:linxing.jiang@duke.edu}{linxing.jiang@duke.edu}
     or \href{mailto:prestonj@cs.washington.edu}{prestonj@cs.washington.edu}  \par
 
-%%%%% section: biac2bids
-\section{\texttt{biac2bids}}
+\newpage
+%%%%% section: util
+\section{\texttt{util}}
+This is the module which serves as the utility module. It contains validation functionality to let you validate your 
+dataset from BIAC to check if it is ready to be converted. 
 
-   \texttt{biac2bids} module is the pipeline for converting raw data from BIAC in forms of \texttt{bxh} and
-   \texttt{nifti} to BIDS format. The workflow is as follows:
-
-    \begin{figure}[h]
-        \begin{mybox}
-        \begin{tikzpicture}[>=latex,shape aspect=1,scale=0.7]
-        \tikzstyle{box} = [rectangle, draw, minimum height=1cm, minimum width=2cm]
-        % Disk Interface %
-        \node[box, dashed] (biac) at (-6, 0) {Data from biac};
-        \node[box, dashed] (json) at (0, 0) {\texttt{json} files};
-        \path[->] (biac) edge node[midway, above] {\tiny{\texttt{generate\_json}}} (json);
-        \node[box, dashed] (bxh) at (6, 0) {raw BIDS files};
-        \path[->] (json) edge node[midway, above] {\tiny{\texttt{bxh2bids}}} (bxh);
-        \node[box, dashed] (done) at (12, 0) {valid BIDS files};
-        \path[->] (bxh) edge node[midway, above] {\tiny{\texttt{clean\_names}}} (done);
-        \end{tikzpicture}
-        \end{mybox}
-    \end{figure}
-
-    %%%%% subsection: prerequisites
-    \subsection{Prerequisites}
-    \<biac2bids> makes the following assumptions on the format of your raw data from BIAC:
+\subsection{Dataset Structure}
+   The pipeline makes the following assumptions on the format of your raw data from BIAC:
    \begin{lstlisting}[escapeinside={(*@}{@*)}]
 |-Data
 |    |
@@ -131,13 +115,15 @@
         \item Task numbers in the first column \textbf{\em{must}} match that in the imaging files. For example, a ``4''
             in \<translation\_file> and a ``004'' in the imaging file will result in an error.
         \item The first column must be task code, and the second column must be the task name. There can only be two columns
+        \item If you have fmap data task code, be sure to name the translation \textbf{``fmap''} exactly. In this way, the data
+            will be put in \<fmap> folder after BIDS conversion, not \<anat> folder.
     \end{itemize}
 
     Requirements on \<biac\_id\_mapping.tsv> are as follows:
     \begin{table}[!htb]
         \centering
         \begin{tabularx}{.6\linewidth}{Y|Y|Y}
-             BIAC\_ID & Session & Real\_ID \\ \hline
+            BIAC\_ID & [Session] & Real\_ID \\ \hline
              19354 & SRM & 101 \\
              19338 & SPM & 102 \\
              19368 & SPM & 101 \\
@@ -149,8 +135,57 @@
     \begin{itemize}
         \item The values must be \textbf{tab} separated.
         \item The headers must follow the rules (watch letter cases)!
-        \item If your experiment does not multiple sessions, use only the first and last column.
+        \item If your experiment does not have multiple sessions, you can ignore the \<Session> column
     \end{itemize}
+
+    %%%%% Validaiton
+    \subsection{Validation}
+
+    The requirements the module validates are:
+    \begin{enumerate}
+        \item Basic structure: check folder has \<Data>, \<biac\_id\_mapping.tsv>, Data has \<Anat>, \<Func>, 
+            both \<Anat> and \<Func> contain the same folders, and each of these folders contains \<series\_order\_note.tsv>
+        \item \<biac\_id\_mapping\_file>: check \<biac\_id\_mapping.tsv> is valid 
+        \item \<all\_series\_order\_note\_files>: check all of the \<series\_order\_note.tsv> files in each subfolder is valid 
+        \item Data matching: check each \<.bxh> file is matched with \<.nii.gz> file, and has valid task code
+            translation which can be found in \<series\_order\_note.tsv>
+    \end{enumerate}
+
+    %%%%% script
+    \subsection{Scripts}
+    The script associated with this module is \<scripts/validate\_biac\_study\_folder.py>. The only thing you 
+    need to change is the \<STUDY\_PATH>. \par
+
+    If there are errors, they will be printed out to console after validation finishes. Otherwise, you will 
+    see the following printed out:
+    \[\text{\<Your study path passed validation! You are now ready for conversion>}\]
+
+    You can also check out all the logs produced under \<biacpype/logs/validation.log>
+
+    
+
+%%%%% section: biac2bids
+\section{\texttt{biac2bids}}
+
+   \texttt{biac2bids} module is the pipeline for converting raw data from BIAC in forms of \texttt{bxh} and
+   \texttt{nifti} to BIDS format. The workflow is as follows:
+
+    \begin{figure}[h]
+        \begin{mybox}
+        \begin{tikzpicture}[>=latex,shape aspect=1,scale=0.7]
+        \tikzstyle{box} = [rectangle, draw, minimum height=1cm, minimum width=2cm]
+        % Disk Interface %
+        \node[box, dashed] (biac) at (-6, 0) {Data from biac};
+        \node[box, dashed] (json) at (0, 0) {\texttt{json} files};
+        \path[->] (biac) edge node[midway, above] {\tiny{\texttt{generate\_json}}} (json);
+        \node[box, dashed] (bxh) at (6, 0) {raw BIDS files};
+        \path[->] (json) edge node[midway, above] {\tiny{\texttt{bxh2bids}}} (bxh);
+        \node[box, dashed] (done) at (12, 0) {valid BIDS files};
+        \path[->] (bxh) edge node[midway, above] {\tiny{\texttt{clean\_names}}} (done);
+        \end{tikzpicture}
+        \end{mybox}
+    \end{figure}
+
     %%%%% subsection: Scripts
     \subsection{Scripts}
     The script associated with this module is \<scripts/convert\_to\_bids.py>. There are four 
@@ -161,5 +196,14 @@
         \item \<BIDS\_PATH>: the path where the user wants the new BIDS format data to be saved
         \item \<LOG\_PATH>: the path where the user wants the logs to be saved
     \end{itemize}
+
+    %%%%% common errors
+    \subsection{Common Errors}
+    \begin{enumerate}
+        \item \<Error:root:scan description not found in template file!> \par
+            This is because the scan description (printed out next line) is not saved in template file. 
+            To fix this, add the description to \<biacpype/biac2bids/bxh2bids/info\_field\_files/psd\_types.json> following
+            its format.
+    \end{enumerate}
 
 \end{document}
