@@ -78,7 +78,8 @@ def _build_contents(dict_to_write, study_path, subject, func):
                 content["task"] = task_name
             else:
                 content["acq"] = task_name
-            content["run"]  = run
+            if run:
+                content["run"]  = run
             contents[json_field] = content
     key = "funcs" if func else "anats"
     dict_to_write[key] = contents

@@ -68,6 +68,7 @@ def parse_task_and_run(filename, trans_dict, delimiter="_"):
     task = info[2]
     if trans_dict and info[2] not in trans_dict:
         raise ValueError("Parsed task code cannot be found in translation dictionary!")     
-    run = "1" if len(info) == 3 else info[3]
+    run = None if len(info) == 3 else info[3]
     task = trans_dict[task] if trans_dict else task
-    return task, run, info[2] + "_" + run
+    json_handle = info[2] if run is None else info[2] + "_" + run 
+    return task, run, json_handle
