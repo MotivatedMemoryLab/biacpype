@@ -59,10 +59,6 @@ def data_folder_file_matching(study_path, folder_type="Func"):
                 info = bxh_name.split("_")
                 if len(info) != 3 and len(info) != 4:
                     raise InvalidFileError("Invalid naming", os.path.join(data_path, folder, bxh_file))
-                # none of the parts should contain hyphens
-                for i in info:
-                    if "-" in i:
-                        raise InvalidFileError("filename contains hyphens!", os.path.join(data_path, folder, bxh_file))
                 # check matching nii.gz file
                 if bxh_name + ".nii.gz" not in all_files:
                     raise InvalidFileError("Did not find matching nii.gz file: ", os.path.join(data_path, folder, bxh_file))
