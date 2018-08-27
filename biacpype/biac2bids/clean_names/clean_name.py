@@ -16,7 +16,10 @@ def group_sessions():
     for subj in os.listdir(Const.BIDS_PATH):
         if subj.startswith("sub"):
             subj_date_id = subj.split("-")[1]
-            subj_id = subj_date_id.split("_")[1]
+            info = subj_date_id.split("_")
+            # this should only be length 2 (date_id) or 1 (just id)
+            assert len(info) == 1 or len(info) == 2
+            subj_id = info[0] if len(info) == 1 else info[1]
             real_id = mapping.loc[int(subj_id)].Real_ID
             _renaming_all_files(os.path.join(Const.BIDS_PATH, subj), subj_date_id, real_id)
             # rename folder, need to combine sessions
