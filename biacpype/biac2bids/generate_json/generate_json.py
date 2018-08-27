@@ -40,16 +40,14 @@ def _walk_study_path(study_path, output_path):
         if subject == "19239":
             continue
         all_subjects_id.append(func)
-        # build trans_dict
-        trans_d = trans_dict(os.path.join(func_path, func))
         # build header
         if session != "":
             session = mapping.loc[int(subject)].Session
         _build_subj(dict_to_write, func, session)
         # build for func
-        _build_contents(dict_to_write, study_path, func, trans_d, True)
+        _build_contents(dict_to_write, study_path, func, True)
         # build for anat
-        _build_contents(dict_to_write, study_path, func, trans_d, False)
+        _build_contents(dict_to_write, study_path, func, False)
         # output
         _write_to_json(dict_to_write, output_path, func)  
     return all_subjects_id
@@ -60,17 +58,18 @@ def _build_subj(dict_to_write, subject, session):
     dict_to_write["ses"] = session
 
 
-def _build_contents(dict_to_write, study_path, subject, trans_dict, func):
+def _build_contents(dict_to_write, study_path, subject, func):
     if func:
         folder = "Func" # only Func needs translation
     else:
         folder = "Anat"
     path = os.path.join(study_path, "Data", folder, subject)
     contents = dict()
+    trans_d = trans_dict(path)
     for bxh_file in os.listdir(path):
         if bxh_file.endswith(".bxh"):
             content = dict()
-            task_name, run, json_field = parse_task_and_run(bxh_file, trans_dict=trans_dict)
+            task_name, run, json_field = parse_task_and_run(bxh_file, trans_d)
             # do a check and raise error here
             if func:
                 content["task"] = task_name

@@ -1,13 +1,13 @@
 import os
 from shutil import move, rmtree
-from ..generate_json.translation import subject_mapping
 import biacpype.util.constants as Const
+from biacpype.util.translation import subject_mapping
 
 
 def group_sessions():
     """Rename all bids file with our subject id number mapping
 
-    Expecting the same "biac_id_mapping.csv".
+    Expecting the same "biac_id_mapping.tsv".
 
     params:
         - Const.STUDY_PATH: the path to the study folder

@@ -9,4 +9,3 @@ STUDY_PATH = "/Volumes/lj146/Documents/CBT.01/"
 
 ### validation begins ###
 verify_biac_path(STUDY_PATH)
-

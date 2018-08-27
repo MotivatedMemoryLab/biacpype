@@ -5,7 +5,7 @@ import pandas as pd
 def subject_mapping(study_path):
     r"""Create subject id, session, real id mapping.
     
-    Read in the "biac_id_mapping.csv" file, expected in the study folder. The file is
+    Read in the "biac_id_mapping.tsv" file, expected in the study folder. The file is
     expected to be in format ("|" is TAB (\t), header has to be exact):
     BIAC_ID (primary key) | Session | Real_ID
     -----------------------------------------
@@ -16,7 +16,7 @@ def subject_mapping(study_path):
     params:
         - study_path: the path to the study folder 
     """
-    return pd.read_csv(os.path.join(study_path, "biac_id_mapping.csv"), index_col="BIAC_ID", dtype={"Real_ID":str})
+    return pd.read_csv(os.path.join(study_path, "biac_id_mapping.tsv"), index_col="BIAC_ID", dtype={"Real_ID":str}, delimiter="\t")
     
 
 def trans_dict(filepath, header=0):
@@ -50,7 +50,7 @@ def trans_dict(filepath, header=0):
     return d
 
 
-def parse_task_and_run(filename, trans_dict=None, delimiter="_"):
+def parse_task_and_run(filename, trans_dict, delimiter="_"):
     """Parse a bxh filename to get task name and run (if any)
 
     Expect the filename to be in format:
