@@ -23,11 +23,11 @@ You can also find a user manual `here`_.
 ------------
 Installation
 ------------
-To install the package, clone this repo, then run the following:
+To install the dependencies, run
 
 .. code-block:: python
 
-    python setup.py install
+    pip install -r requirements.txt
 
 We intent to only support Python3. 
 
