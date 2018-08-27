@@ -70,6 +70,9 @@ def _build_contents(dict_to_write, study_path, subject, func):
         if bxh_file.endswith(".bxh"):
             content = dict()
             task_name, run, json_field = parse_task_and_run(bxh_file, trans_d)
+            # ignore fmap in json anats
+            if task_name == 'fmap':
+                continue
             # do a check and raise error here
             if func:
                 content["task"] = task_name
