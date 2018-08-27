@@ -82,6 +82,6 @@ def _build_contents(dict_to_write, study_path, subject, func):
 
 
 def _write_to_json(dict_to_write, output_path, subject):
-    with open(output_path + subject + ".json", "w") as f:
+    with open(os.path.join(output_path, subject + ".json"), "w") as f:
         json.dump(dict_to_write, f)
 
