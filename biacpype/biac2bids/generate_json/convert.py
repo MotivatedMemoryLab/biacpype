@@ -1,7 +1,6 @@
 import os
 import json
 from .generate_json import generate_all_jsons
-from biacpype.util.validation import verify_biac_path,  choose_json_dir
 import biacpype.util.constants as Const 
 
 
@@ -15,11 +14,7 @@ def generate_all_json_files():
         - bids_path: path the output bids format data
         - log_path: path to save the logs
     """
-    msg = verify_biac_path(Const.STUDY_PATH) 
-    if msg:
-        print("Error in folder check: " + msg) 
-        return
-
+    # check if the json output path is used
     if not choose_json_dir(Const.JSON_OUTPUT_PATH):
         print("Please rerun the script with a different json output path!")
         return
