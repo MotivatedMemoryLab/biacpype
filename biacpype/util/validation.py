@@ -9,7 +9,7 @@ from . import constants as Const
 from .InvalidFileError import InvalidFileError
 
 
-def verify_biac_path(study_path):
+def verify_biac_path():
     """This is the pipeline to verify the study path has everything needed to
     be automatically converted to BIDS format. The steps are:
 
@@ -27,11 +27,11 @@ def verify_biac_path(study_path):
     """
     logger = get_logger(logging.DEBUG, "validation.log", mode='w') # clear file if existed
     logger.info("Start validation...")
-    basic_structrue(study_path)
-    biac_id_mapping_file(os.path.join(study_path, "biac_id_mapping.tsv"))
-    all_series_order_note_files(study_path)
-    data_folder_file_matching(study_path, folder_type="Anat")
-    data_folder_file_matching(study_path, folder_type="Func")
+    basic_structrue(Const.STUDY_PATH)
+    biac_id_mapping_file(os.path.join(Const.STUDY_PATH, "biac_id_mapping.tsv"))
+    all_series_order_note_files(Const.STUDY_PATH)
+    data_folder_file_matching(Const.STUDY_PATH, folder_type="Anat")
+    data_folder_file_matching(Const.STUDY_PATH, folder_type="Func")
     error_lines = parse_validation_file(os.path.join(Const.SYS_LOG, "validation.log"))
     if not len(error_lines):
         print("Your study path passed validation! You are now ready for conversion")
