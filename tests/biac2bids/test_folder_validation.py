@@ -12,4 +12,4 @@ class ValidationTest(unittest.TestCase):
                   BIDS_PATH="tests/files/study_folder_valid/bids-try", LOG_PATH="tests/files/study_folder_valid/logs") 
 
     def test_basic_structure(self):
-        verify_biac_path(Const.STUDY_PATH)
+        verify_biac_path()
