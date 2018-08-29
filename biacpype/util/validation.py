@@ -3,7 +3,7 @@ import shutil
 import logging
 import pandas as pd
 from .decorators import logged
-from .translation import trans_dict
+from .translation import trans_dict, subject_mapping
 from .create_logger import get_logger
 from . import constants as Const
 from .InvalidFileError import InvalidFileError
@@ -43,6 +43,7 @@ def verify_biac_path():
 
 @logged("validation.log")
 def data_folder_file_matching(study_path, folder_type="Func"):
+    subject_map = subject_mapping(study_path)
     # first Func
     data_path =  os.path.join(study_path, "Data", folder_type) 
     data_folders = os.listdir(data_path)
@@ -65,6 +66,9 @@ def data_folder_file_matching(study_path, folder_type="Func"):
                 # check that the task code is in dictionary
                 if info[2] not in trans_d:
                     raise InvalidFileError("task code not found in series_order_note.tsv", os.path.join(data_path, folder, bxh_file))
+                # check that the biac id is in bids_id_mapping.tsv
+                if info[1] not in subject_map:
+                    raise InvalidFileError("subject biac id not found in biac_id_mapping.tsv", os.path.join(data_path, folder, bxh_file))
                 
 
 def all_series_order_note_files(study_path):
