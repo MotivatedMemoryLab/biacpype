@@ -67,7 +67,7 @@ def data_folder_file_matching(study_path, folder_type="Func"):
                 if info[2] not in trans_d:
                     raise InvalidFileError("task code not found in series_order_note.tsv", os.path.join(data_path, folder, bxh_file))
                 # check that the biac id is in bids_id_mapping.tsv
-                if info[1] not in subject_map:
+                if int(info[1]) not in subject_map.index:
                     raise InvalidFileError("subject biac id not found in biac_id_mapping.tsv", os.path.join(data_path, folder, bxh_file))
                 
 
