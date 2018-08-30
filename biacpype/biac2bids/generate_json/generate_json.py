@@ -37,8 +37,6 @@ def _walk_study_path(study_path, output_path):
     all_subjects_id = []
     for func in func_folders:
         _, subject = func.split("_")
-        if subject == "19239":
-            continue
         all_subjects_id.append(func)
         # build header
         if session != "":
