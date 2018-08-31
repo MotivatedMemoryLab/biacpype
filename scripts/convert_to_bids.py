@@ -6,10 +6,10 @@ from biacpype.biac2bids.clean_names.clean_name import group_sessions
 from biacpype.util.constants import set_paths
 
 ### CHANGE HERE ###
-STUDY_PATH = "/Volumes/lj146/Documents/CBT.01/"
-JSON_OUTPUT_PATH = "/Volumes/lj146/Documents/CBT.01/JSONS/" 
-BIDS_PATH = "/Volumes/lj146/Documents/CBT.01/bids-try/"
-LOG_PATH = "/Volumes/lj146/Documents/CBT.01/logs/"
+STUDY_PATH = "/Users/lpjiang/Documents/CBT.01-copy/"
+JSON_OUTPUT_PATH = "/Users/lpjiang/Documents/CBT.01-copy/JSONS" 
+BIDS_PATH = "/Users/lpjiang/Documents/CBT.01-copy/bids-try"
+LOG_PATH = "/Users/lpjiang/Documents/CBT.01-copy/logs"
 
 # ---------pipe begins---------  # 
 
@@ -21,4 +21,3 @@ generate_all_json_files()
 bxh_to_bids()
 # clean up
 group_sessions()
-
