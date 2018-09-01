@@ -31,10 +31,3 @@ To install the dependencies, run
 
 We intent to only support Python3. 
 
--------
-Modules
--------
-1. :code:`biac2bids`: conversion from BIAC format (:code:`.nii.gz` & :code:`.bxh`) to BIDS
-
-
-
