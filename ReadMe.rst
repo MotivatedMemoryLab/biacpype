@@ -5,6 +5,9 @@ biacpype
     :target: https://travis-ci.org/MotivatedMemoryLab/biacpype    
 .. image:: https://coveralls.io/repos/github/MotivatedMemoryLab/biacpype/badge.svg
     :target: https://coveralls.io/github/MotivatedMemoryLab/biacpype
+.. image:: https://mybinder.org/badge.svg 
+    :target: https://mybinder.org/v2/gh/MotivatedMemoryLab/biacpype/master
+
 
 
 This repo serves as a pipeline for analyzing data from Duke Brain Imaging & 
