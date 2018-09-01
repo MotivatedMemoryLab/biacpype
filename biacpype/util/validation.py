@@ -134,13 +134,17 @@ def biac_id_mapping_file(filepath):
             raise InvalidFileError("biac_id_mapping.tsv header not valid! Please check user manual", filepath)
         # check the rest of the lines
         biac_ids = set() 
+        real_ids = set()
         for line_number, line in enumerate(f):
             info = line.split("\t") 
             if len(info) != num_headers:
                 raise InvalidFileError("line {} is not valid: it has {} parts".format(line_number + 2, len(info)), filepath)
             if info[0] in biac_ids:
                 raise InvalidFileError("line {} has duplicate biac_id: {}".format(line_number + 2, info[0]), filepath)
+            if info[-1] in real_ids and num_headers == 2:
+                raise InvalidFileError("line {} has duplicate real_id (single session): {}".format(line_number + 2, info[-1]), filepath)
             biac_ids.add(info[0])                
+            real_ids.add(info[-1])
 
 
 @logged("validation.log")
