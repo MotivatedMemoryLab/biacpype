@@ -22,4 +22,4 @@
 *.toc
 
 # in tutorial, ignore 
-tutorial/study
+*tutorial/study/*
