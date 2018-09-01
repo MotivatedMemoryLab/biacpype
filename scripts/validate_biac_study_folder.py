@@ -5,7 +5,7 @@ from biacpype.util.validation import verify_biac_path
 from biacpype.util.constants import set_paths
 
 
-STUDY_PATH = "/Users/lpjiang/Documents/CBT.01-copy/"
+STUDY_PATH = "tutorial/study"
 
 
 ### validation begins ###
