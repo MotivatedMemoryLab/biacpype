@@ -102,7 +102,11 @@ def basic_structrue(study_path):
     anat_folders = os.listdir(os.path.join(subpath, "Anat")) 
     func_folders = os.listdir(os.path.join(subpath, "Func"))  
     if anat_folders != func_folders:
-        raise ValueError("\"Anat\" and \"Func\" contains different folders!")
+        # which one has more?
+        anat_set = set(anat_folders)
+        func_set = set(func_folders)
+        diff = anat_set - func_set if len(anat_set) > len(func_set) else func_set - anat_set
+        raise ValueError("\"Anat\" and \"Func\" contains different folders! The differences are: {}".format(str(diff)))
     # check all subfolders have series_order_note.tsv
     for folder in anat_folders:
         if not folder.startswith(".") and "series_order_note.tsv" not in os.listdir(os.path.join(subpath, "Anat", folder)):
