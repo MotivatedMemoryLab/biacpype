@@ -55,7 +55,7 @@
 		<scannermanufacturer>GE MEDICAL SYSTEMS</scannermanufacturer>
 		<scanner>bia5</scanner>
 		<examdescription>fake</examdescription>
-		<description>this is not fake at all</description>
+		<description>fake</description>
 		<operator>ng</operator>
 		<scannermodelname>DISCOVERY MR750</scannermodelname>
 		<scanningsequence>EP/GR</scanningsequence>
