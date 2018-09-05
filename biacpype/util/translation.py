@@ -46,7 +46,7 @@ def trans_dict(filepath, header=0):
             # not empty line
             if line != "":
                 info = line.split("\t")
-                d[info[0]] = info[1]
+                d[info[0].lstrip("0")] = info[1]
     return d
 
 
@@ -65,8 +65,8 @@ def parse_task_and_run(filename, trans_dict, delimiter="_"):
     """
     filename = filename.rstrip(".bxh")
     info = filename.split(delimiter)
-    task = info[2]
-    if trans_dict and info[2] not in trans_dict:
+    task = info[2].lstrip("0")
+    if trans_dict and task not in trans_dict:
         raise ValueError("Parsed task code cannot be found in translation dictionary!")     
     run = None if len(info) == 3 else info[3]
     task = trans_dict[task] if trans_dict else task

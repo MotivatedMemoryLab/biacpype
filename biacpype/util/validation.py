@@ -64,7 +64,7 @@ def data_folder_file_matching(study_path, folder_type="Func"):
                 if bxh_name + ".nii.gz" not in all_files:
                     raise InvalidFileError("Did not find matching nii.gz file: ", os.path.join(data_path, folder, bxh_file))
                 # check that the task code is in dictionary
-                if info[2] not in trans_d:
+                if info[2].lstrip("0") not in trans_d:
                     raise InvalidFileError("task code not found in series_order_note.tsv", os.path.join(data_path, folder, bxh_file))
                 # check that the biac id is in bids_id_mapping.tsv
                 if int(info[1]) not in subject_map.index:
