@@ -13,11 +13,13 @@ parser.add_argument('study_path', help='path to your study folder')
 parser.add_argument('json_path', help='path to output json files')
 parser.add_argument('bids_path', help='path to output BIDS data')
 parser.add_argument('log_path', help='path to output logs')
+parser.add_argument('--subjects', help='list of subjects', nargs='*')
 
 # ---------pipe begins---------  # 
 args = parser.parse_args()
+print(args.subjects)
 # set paths
-set_paths(STUDY_PATH=args.study_path, JSON_OUTPUT_PATH=args.json_path, BIDS_PATH=args.bids_path, LOG_PATH=args.log_path)
+set_paths(STUDY_PATH=args.study_path, JSON_OUTPUT_PATH=args.json_path, BIDS_PATH=args.bids_path, LOG_PATH=args.log_path, SUBJECTS=args.subjects)
 # generate jsons
 generate_all_json_files()
 # convert to bids
