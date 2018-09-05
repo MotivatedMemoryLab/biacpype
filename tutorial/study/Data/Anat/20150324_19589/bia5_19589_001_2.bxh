@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<bxh xmlns:bxh="http://www.biac.duke.edu/bxh" xmlns="http://www.biac.duke.edu/bxh" version="1.0">
+	<datarec type="image">
+		<rasorigin>-10 124.0237 124.0237</rasorigin>
+		<dimension type="x">
+			<units>mm</units>
+			<size>256</size>
+			<origin>124.0237</origin>
+			<gap>0</gap>
+			<spacing>0.9766</spacing>
+			<direction>0 -1 0</direction>
+		</dimension>
+		<dimension type="y">
+			<units>mm</units>
+			<size>256</size>
+			<origin>124.0237</origin>
+			<gap>0</gap>
+			<spacing>0.9766</spacing>
+			<direction>0 0 -1</direction>
+		</dimension>
+		<dimension type="z">
+			<units>mm</units>
+			<size>5</size>
+			<origin>-10</origin>
+			<gap>0</gap>
+			<spacing>5</spacing>
+			<direction>1 0 0</direction>
+		</dimension>
+		<byteorder>lsbfirst</byteorder>
+		<elementtype>int16</elementtype>
+		<filename>bia5_19589_001_2.nii</filename>
+		<fileoffset>352</fileoffset>
+		<filerecordsize>655360</filerecordsize>
+	</datarec>
+	<acquisitiondata>
+		<examnumber>19589</examnumber>
+		<studyid>fake</studyid>
+		<seriesnumber>1</seriesnumber>
+		<runnumber>1</runnumber>
+		<institution>Duke Univ Hosp MR5</institution>
+		<psdname>ssfse</psdname>
+		<psdinternalname>SSFSE</psdinternalname>
+		<psddate>2013-10-29</psddate>
+		<psdtime>21:18:23</psdtime>
+		<scandate>2015-03-24</scandate>
+		<scantime>13:59:19</scantime>
+		<scannermanufacturer>GE MEDICAL SYSTEMS</scannermanufacturer>
+		<scanner>bia5</scanner>
+		<examdescription>fake</examdescription>
+		<description>SSFSE</description>
+		<operator>ng</operator>
+		<scannermodelname>DISCOVERY MR750</scannermodelname>
+		<scanningsequence>SE</scanningsequence>
+		<sequencevariant>SK</sequencevariant>
+		<scanoptions>FAST_GEMS/SEQ_GEMS/SS_GEMS/PFP</scanoptions>
+		<mracquisitiontype>2D</mracquisitiontype>
+		<angioflag>N</angioflag>
+		<numaverages>0.546875</numaverages>
+		<imagingfrequency>127.766125</imagingfrequency>
+		<imagednucleus>1H</imagednucleus>
+		<spacingbetweenslices>5</spacingbetweenslices>
+		<echotrainlength>1</echotrainlength>
+		<percentsampling>54.6875</percentsampling>
+		<percentphasefieldofview>100</percentphasefieldofview>
+		<scannerserialnumber>0000000919684MR5</scannerserialnumber>
+		<softwareversions>24</softwareversions>
+		<heartrate>0</heartrate>
+		<cardiacnumberofimages>0</cardiacnumberofimages>
+		<triggerwindow>0</triggerwindow>
+		<reconstructiondiameter>250</reconstructiondiameter>
+		<receivecoilname>8HRBRAIN</receivecoilname>
+		<inplanephaseencodingdirection>ROW</inplanephaseencodingdirection>
+		<flipangle>90</flipangle>
+		<variableflipangleflag>N</variableflipangleflag>
+		<sar>1.2018</sar>
+		<acquisitionnumber>1</acquisitionnumber>
+		<instancenumber>6</instancenumber>
+		<samplesperpixel>1</samplesperpixel>
+		<photometricinterpretation>MONOCHROME2</photometricinterpretation>
+		<rows>256</rows>
+		<columns>256</columns>
+		<bitsallocated>16</bitsallocated>
+		<bitsstored>16</bitsstored>
+		<highbit>15</highbit>
+		<magneticfield>3</magneticfield>
+		<fieldofview>250 250</fieldofview>
+		<tr>2000</tr>
+		<te>30.688</te>
+		<echospacing>0</echospacing>
+		<sensefactor>1</sensefactor>
+		<prescribedslicespacing>5</prescribedslicespacing>
+		<acquisitionmatrix>256 128</acquisitionmatrix>
+		<pixelbandwidth>651.016</pixelbandwidth>
+		<bandwidth>166.660096</bandwidth>
+		<frequencydirection>2</frequencydirection>
+		<protocolname>fake</protocolname>
+	</acquisitiondata>
+	<history>
+		<entry>
+			<date>2015-03-24 14:14:55</date>
+			<description>Generated on biac5.dhe.duke.edu by '/usr/local/packages/bxh_xcede_tools/bin/dicom2bxh' (BXH utilities (1.11.0)) from 15 input args: bia5_20150324_19589_001_01_00001.dcm bia5_20150324_19589_001_01_00002.dcm bia5_20150324_19589_001_01_00003.dcm bia5_20150324_19589_001_01_00004.dcm bia5_20150324_19589_001_01_00005.dcm bia5_20150324_19589_001_01_00006.dcm bia5_20150324_19589_001_01_00007.dcm bia5_20150324_19589_001_01_00008.dcm bia5_20150324_19589_001_01_00009.dcm bia5_20150324_19589_001_01_00010.dcm bia5_20150324_19589_001_01_00011.dcm bia5_20150324_19589_001_01_00012.dcm bia5_20150324_19589_001_01_00013.dcm bia5_20150324_19589_001_01_00014.dcm bia5_20150324_19589_001_01_00015.dcm
+BXH utilities (1.11.0)</description>
+		</entry>
+		<entry>
+			<date>2015-03-24 14:14:56</date>
+			<description>Generated on biac5.dhe.duke.edu by 'bxh2analyze' (BXH utilities (1.11.0)) from 2 input args: /data/procd/temp/dicom_HnUEEpow/20150324_19589_001-2.bxh bia5_19589_001_2
+BXH utilities (1.11.0)</description>
+		</entry>
+	</history>
+</bxh>

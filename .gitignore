@@ -20,6 +20,3 @@
 *.log
 *.out
 *.toc
-
-# in tutorial, ignore 
-*tutorial/study/*
