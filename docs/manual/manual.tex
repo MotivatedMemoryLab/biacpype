@@ -250,9 +250,75 @@ dataset from BIAC to check if it is ready to be converted.
 
 
 \section{\<helper>}
-For now, the \<helper> contains one helper function which creates \<series\_order\_note.tsv> automatically from user 
-script input.
+The \<helper> module aims to provide some helper scripts to make the conversion process simply. If you have features which 
+you think would be useful and the module does not cover, please let us know through GitHub
+\href{https://github.com/MotivatedMemoryLab/biacpype/issues}{Feature Requests}, or better, build them in your forked
+branch and submit \href{https://github.com/MotivatedMemoryLab/biacpype/pulls}{Pull Requests}!
+
+\subsection{\<create\_series\_order\_notes.py>}
+If you are converting an old dataset, you may not have \<series\_order\_note.tsv> ready. This script can help you with
+that. You will need edit the script and tweak a few things:
+
+\begin{lstlisting}[escapeinside={(*@}{@*)}]
+STUDY_PATH = "/Volumes/lj146/Documents/CBT.01/" (*@\tikzmark{d}@*)
+# translation dictionary
+anat_d = {
+    "001": "fmap", 
+    "003": "Anat", (*@\tikzmark{a}@*)
+    "005": "Anat",
+}
+
+func_d = {
+    "4": "LOCALIZER", 
+    "5": "TRAIN",
+    "6": "REST", (*@\tikzmark{b}@*) 
+    "7": "FINISH" 
+}
+subjs = ["20150220_19480"] # or None for all subjects   (*@\tikzmark{c}@*)  
+
+### creation begins ###
+set_paths(STUDY_PATH=STUDY_PATH)
+populate_file("Anat", anat_d, subjs=subjs)
+populate_file("Func", func_d, subjs=subjs)
+\end{lstlisting}
+
+\begin{tikzpicture}[remember picture,overlay]
+    \node[red] (anat) at ($(pic cs:a) + (5, 0)$) {\<series\_order\_note.tsv> for \<Anat>};
+    \draw[red, rounded corners] ($(pic cs:a) + (-4.2, 1.2)$) rectangle ($(pic cs:a) + (0, -0.84)$);
+    \path[->, red] (anat) edge (pic cs:a);
+
+    \node[red] (func) at ($(pic cs:b) + (6, 0)$) {\<series\_order\_note.tsv> for \<Func>};
+    \draw[red, rounded corners] ($(pic cs:b) + (-3.8, 1.5)$) rectangle ($(pic cs:b) + (1, -0.85)$);
+    \path[->, red] (func) edge ($(pic cs:b) + (1, 0)$);
+
+    \node[red] (subj) at ($(pic cs:c) + (3, 0)$) {add to which subject};
+    \draw[red, rounded corners] ($(pic cs:c) + (-12.2, 0.4)$) rectangle ($(pic cs:c) + (0, -0.4)$);
+    \path[->, red] (subj) edge (pic cs:c);
+
+    \node[red] (study) at ($(pic cs:d) + (3, 0)$) {Your study path};
+    \draw[red, rounded corners] ($(pic cs:d) + (-10.45, 0.4)$) rectangle ($(pic cs:d) + (0, -0.2)$);
+    \path[->, red] (study) edge (pic cs:d);
+\end{tikzpicture}
+
+The four red rectangles are the areas you need to change to create the files. They should be 
+straightforward to understand. Note that to add the files to \textbf{all} subjects, set
+\[\text{\<subjs = None>}\]
+
+After you change the fields, run
+    \begin{lstlisting}[xleftmargin=.2\textwidth, xrightmargin=.2\textwidth, backgroundcolor=\color{lightgray}]
+    python scripts/create_series_order_notes.py
+    \end{lstlisting}        
+to create the files. \par
+
+Sometimes, not all of your subjects have the exactly same task code mapping. You will need to manually
+change these after the tsv files are populated to all folders.
 
 
-
+\section{Contributing and Asking for Help!}
+We hope you can contribute and help us develop this pipeline better through:
+\begin{itemize}
+    \item Create GitHub Issues and Pull Requests to let us be aware of the uncaught bugs
+    \item Chat on Gitter and ask for help
+    \item Let us know what feature you wish the pipeline had 
+\end{itemize}
 \end{document}
