@@ -3,8 +3,7 @@
 
 %%% Formatting
 \def\<#1>{\texttt{#1}}
-\setlength{\parskip}{1em}
-
+\setlength{\parskip}{1em} 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%FILE%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 
@@ -19,14 +18,16 @@
 
     \texttt{biacpype} serves as a pipeline for converting raw fMRI data from Brain Imaging \& Analysis Center
     \href{https://www.biac.duke.edu/}{(BIAC)} at Duke University to the new standard Brain Imaging Data Structure
-    \href{http://bids.neuroimaging.io/}{(BIDS)} format, and supporting furthur analysis. The main parts of
-    \texttt{biacpype} contains:
+    \href{http://bids.neuroimaging.io/}{(BIDS)} format. The main parts of \texttt{biacpype} contains:
 
     \begin{itemize}
-        \item \texttt{util}: BIAC dataset validation, logging 
+        \item \texttt{util}: BIAC dataset validation
         \item \texttt{biac2bids}: conversion from BIAC to BIDS
-        \item ...
+        \item \texttt{helper}: helper scripts
     \end{itemize}
+
+    In a nutshell, \<biacpype> serves as an adapter to the \<bxh2bids> code developed by John Graner from LaBar 
+    lab. This is the core of the conversion; all kudos to John!
 
     The structure of this repository is: \par \vspace{.2in}
 
@@ -42,19 +43,25 @@
 |    |_ ...
 |-tutorial // a tutorial notebook
 |
-|-docs     // documentation (under construction)
+|-docs     // documentation 
     |_ ...
     \end{lstlisting}
 
     To install dependencies of this repo, run
-    \[\text{\<pip install -r requirements.txt>}\]
+    \begin{lstlisting}[xleftmargin=.25\textwidth, xrightmargin=.25\textwidth, backgroundcolor=\color{lightgray}, framexleftmargin=1em, framexrightmargin=1em]
+    pip install -r requirements.txt
+    \end{lstlisting}        
 
     The following section will introduce main modules of \texttt{biacpype}, and the corresponding scripts for using
-    the pipelines. All scripts are described in \textbf{Scripts} subsections. \par
+    the pipelines. 
 
-    If you have any questions, please email Preston Jiang at 
+    If you have any questions, please email Preston at 
     \href{mailto:linxing.jiang@duke.edu}{linxing.jiang@duke.edu}
-    or \href{mailto:prestonj@cs.washington.edu}{prestonj@cs.washington.edu}  \par
+    or \href{mailto:prestonj@cs.washington.edu}{prestonj@cs.washington.edu}. \par
+    
+    You can also go to
+    \href{https://gitter.im/MotivatedMemoryLab/biacpype}{Gitter Chatroom: https://gitter.im/MotivatedMemoryLab/biacpype} to ask for help!
+    You will need to log in with your GitHub account.
 
 \newpage
 %%%%% section: util
@@ -116,10 +123,8 @@ dataset from BIAC to check if it is ready to be converted.
     Note:
     \begin{itemize}
         \item The values must be \textbf{tab} separated.
-        \item The first column serves as the primary key (they must be unique)
-        \item Task numbers in the first column \textbf{\em{must}} match that in the imaging files. For example, a ``4''
-            in \<translation\_file> and a ``004'' in the imaging file will result in an error.
-        \item The first column must be task code, and the second column must be the task name. There can only be two columns
+        \item The first column serves as the primary key (they must be unique).
+        \item The first column must be task code, and the second column must be the task name. There can only be two columns.
         \item If you have fmap data task code, be sure to name the translation \textbf{``fmap''} exactly. In this way, the data
             will be put in \<fmap> folder after BIDS conversion, not \<anat> folder.
     \end{itemize}
@@ -144,37 +149,44 @@ dataset from BIAC to check if it is ready to be converted.
         \item If your experiment does not have multiple sessions, you can ignore the \<Session> column
     \end{itemize}
 
-    %%%%% Validaiton
-    \subsection{Validation}
-
-    The requirements the module validates are:
-    \begin{enumerate}
-        \item Basic structure: check folder has \<Data>, \<biac\_id\_mapping.tsv>, Data has \<Anat>, \<Func>, 
-            both \<Anat> and \<Func> contain the same folders, and each of these folders contains \<series\_order\_note.tsv>
-        \item \<biac\_id\_mapping\_file>: check \<biac\_id\_mapping.tsv> is valid 
-        \item \<all\_series\_order\_note\_files>: check all of the \<series\_order\_note.tsv> files in each subfolder is valid 
-        \item Data matching: check each \<.bxh> file is matched with \<.nii.gz> file, and has valid task code
-            translation which can be found in \<series\_order\_note.tsv>
-    \end{enumerate}
-
     %%%%% script
     \subsection{Scripts}
-    The script associated with this module is \<scripts/validate\_biac\_study\_folder.py>. The only thing you 
-    need to change is the \<STUDY\_PATH>. \par
+    The script associated with this module is \<scripts/validate\_biac\_study\_folder.py>. You need one 
+    command line input, \<STUDY\_PATH>. \par
 
-    If there are errors, they will be printed out to console after validation finishes. Otherwise, you will 
-    see the following printed out:
-    \[\text{\<Your study path passed validation! You are now ready for conversion>}\]
+    Run
+    \begin{lstlisting}[xleftmargin=.15\textwidth, xrightmargin=.15\textwidth, backgroundcolor=\color{lightgray}, framexleftmargin=1em, framexrightmargin=1em]
+    python scripts/validate_biac_study_folder.py -h
+    \end{lstlisting}        
+    to see help messages.  \par
 
-    You can also check out all the logs produced under \<biacpype/logs/validation.log>
+    Run
+    \begin{lstlisting}[xleftmargin=.1\textwidth, xrightmargin=.1\textwidth, backgroundcolor=\color{lightgray}, framexleftmargin=1em, framexrightmargin=1em]
+    python scripts/validate_biac_study_folder.py STUDY_PATH
+    \end{lstlisting}        
+    to validate your dataset. \par
 
-    
+    If there are errors, they will be printed out to console like this:
+        \begin{lstlisting}[xleftmargin=.2\textwidth, xrightmargin=.2\textwidth]
+
+        ### Following erros happend: ###
+        ... 
+
+
+        \end{lstlisting}        
+   
+    All the error logs are saved in \<biacpype/logs/validation.log>. If there are no errors,
+    you should see the following printed out:
+    \begin{center}\<Your study path passed validation! You are now ready for conversion>\end{center}
+
+
 
 %%%%% section: biac2bids
 \section{\texttt{biac2bids}}
 
    \texttt{biac2bids} module is the pipeline for converting raw data from BIAC in forms of \texttt{bxh} and
-   \texttt{nifti} to BIDS format. The workflow is as follows:
+   \texttt{nifti} to BIDS format. It wraps the \<bxh2bids> code developed by John with validation,
+   automatic Json file generation, and naming clean-up. The workflow is as follows:
 
     \begin{figure}[h]
         \begin{mybox}
@@ -197,7 +209,7 @@ dataset from BIAC to check if it is ready to be converted.
     %%%%% subsection: Scripts
     \subsection{Scripts}
     The script associated with this module is \<scripts/convert\_to\_bids.py>. There are four 
-    parameters the user has to toggle. They are:
+    parameters the user has to give to command line. They are:
     \begin{itemize}
         \item \<STUDY\_PATH>: the path to your study file (which contains \<Data> and \<bids\_id\_mapping.csv>)
         \item \<JSON\_OUTPUT\_PATH>: the path where the user wants the json files to be saved
@@ -205,13 +217,35 @@ dataset from BIAC to check if it is ready to be converted.
         \item \<LOG\_PATH>: the path where the user wants the logs to be saved
     \end{itemize}
 
+    Run
+    \begin{lstlisting}[xleftmargin=.22\textwidth, xrightmargin=.22\textwidth, backgroundcolor=\color{lightgray}]
+    python scripts/convert_to_bids.py -h
+    \end{lstlisting}        
+    to see help messages. \par
+
+    Run
+    \begin{lstlisting}[backgroundcolor=\color{lightgray}]
+    python scripts/convert_to_bids.py STUDY_PATH JSON_PATH BIDS_PATH LOG_PATH
+    \end{lstlisting}        
+    to convert your dataset. \par
+
     %%%%% common errors
-    \subsection{Common Errors}
-    \begin{enumerate}
+    \subsection{Common Errors During Conversion}
+    \begin{enumerate}[itemsep=5pt]
+        \item \<Log file already exists!?  They should be time-stamped down to the minute!> \par
+            This is because you run the conversion too frequently! \par
+            \color{red}Quick solution: \color{black}delete all your logs and run it again.
+
         \item \<Error:root:scan description not found in template file!> \par
-            This is because the scan description (printed out next line) is not saved in template file. 
-            To fix this, add the description to \<biacpype/biac2bids/bxh2bids/info\_field\_files/psd\_types.json> following
-            its format.
+            This is because the scan description (printed out next line) is not saved in template file. \par
+            \color{red}Quick solution: \color{black}add the description to the scan description file following
+            its format. \par
+            For an example, please refer to the tutorial notebook and the slides!
+
+        \item \<Output file already exists: ...> \par
+            This is because some bids files already exist at the BIDS path! (often because the conversion stopped in
+            the middle) \par
+            \color{red}Quick solution: \color{black}delete the existing bids files.
     \end{enumerate}
 
 
