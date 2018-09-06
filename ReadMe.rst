@@ -14,7 +14,7 @@ biacpype
 
 This repo serves as a pipeline for analyzing data from Duke Brain Imaging & 
 Analysis Center `(biac) <https://www.biac.duke.edu>`_ supporting data format conversion 
-(to `BIDS <http://bids.neuroimaging.io/>`_) and common data analysis with `FSL <https://fsl.fmrib.ox.ac.uk/fsl/fslwiki>`_
+(to `BIDS <http://bids.neuroimaging.io/>`_).
 
 -------------
 Documentation
