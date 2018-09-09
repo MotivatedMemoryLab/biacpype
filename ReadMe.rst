@@ -6,7 +6,7 @@ biacpype
 .. image:: https://coveralls.io/repos/github/MotivatedMemoryLab/biacpype/badge.svg
     :target: https://coveralls.io/github/MotivatedMemoryLab/biacpype
 .. image:: https://mybinder.org/badge.svg 
-    :target: https://mybinder.org/v2/gh/MotivatedMemoryLab/biacpype/master
+    :target: https://mybinder.org/v2/gh/MotivatedMemoryLab/biacpype/master?urlpath=lab
 .. image:: https://badges.gitter.im/MotivatedMemoryLab/biacpype.svg
     :target: https://gitter.im/MotivatedMemoryLab/biacpype
 
