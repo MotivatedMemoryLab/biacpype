@@ -27,7 +27,7 @@ def verify_biac_path():
     """
     logger = get_logger(logging.DEBUG, "validation.log", mode='w') # clear file if existed
     logger.info("Start validation...")
-    basic_structrue(Const.STUDY_PATH)
+    basic_structure(Const.STUDY_PATH)
     biac_id_mapping_file(os.path.join(Const.STUDY_PATH, "biac_id_mapping.tsv"))
     all_series_order_note_files(Const.STUDY_PATH)
     data_folder_file_matching(Const.STUDY_PATH, folder_type="Anat")
@@ -84,7 +84,7 @@ def all_series_order_note_files(study_path):
 
 
 @logged("validation.log")
-def basic_structrue(study_path):
+def basic_structure(study_path):
     # check study path contains Data/ and valid biac_id_mapping.csv
     if not os.path.exists(study_path):
         raise OSError("The study path not found!")
