@@ -240,8 +240,25 @@ dataset from BIAC to check if it is ready to be converted.
             This is because the scan description (printed out next line) is not saved in template file. \par
             \color{red}Quick solution: \color{black}add the description to the scan description file following
             its format. \par
-            For an example, please refer to the tutorial notebook and the slides!
-
+            For example, if you see the following errors:  \par
+            \begin{mybox}
+            \centering 
+            \<
+            Error:root:scan description not found in template file! \\
+            Error:root:Description: fMRI 481x5 \\
+            Error:root:Template File: psd\_types.json>
+            \end{mybox}
+            This means your data description is \<fMRI 481x5> and the program does not what kind of data it is.
+            You need to add it to \<psd\_types.json> as follows (assuming this functional data):
+            \begin{lstlisting}
+{
+    ...,
+    "fMRI 481x5": {
+        "type":"func",
+        "label":"bold"
+    }
+}
+            \end{lstlisting}
         \item \<Output file already exists: ...> \par
             This is because some bids files already exist at the BIDS path! (often because the conversion stopped in
             the middle) \par
