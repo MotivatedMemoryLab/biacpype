@@ -206,6 +206,9 @@ dataset from BIAC to check if it is ready to be converted.
         \caption{\<biac2bids> workflow}
     \end{figure}
 
+    \color{red}{Note:} \color{black}Some file namings will remain invalid until the whole pipeline finishes (\texttt{clean\_names} module changes the names to valid BIDS format). Please
+    wait until it finishes and then validate the names. 
+
     %%%%% subsection: Scripts
     \subsection{Scripts}
     The script associated with this module is \<scripts/convert\_to\_bids.py>. There are four 
